@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page with Icon Animation</title>
+    <style>
+        /* 背景樣式 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #61c1d9, #4e8f9e);
+        }
+
+        /* 登入框樣式 */
+        .login-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+            color: #ffffff;
+        }
+
+        /* 標題樣式 */
+        .login-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* 輸入欄位樣式 */
+        .input-field {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        /* 圖標樣式 */
+        .input-icon {
+            font-size: 20px;
+            transition: transform 0.3s ease, font-size 0.3s ease;
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        /* 當輸入框獲得焦點時，圖標的動畫效果 */
+        .input-field input:focus ~ .input-icon,
+        .input-field input:not(:placeholder-shown) ~ .input-icon {
+            transform: translate(-5px, -10px) scale(0.8);
+            font-size: 16px;
+        }
+
+        /* 輸入欄位 */
+        .input-field input {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            outline: none;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        /* 記住我和忘記密碼區塊 */
+        .options {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+
+        .options a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* 登入按鈕樣式 */
+        .login-button {
+            background-color: #4fd5da;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* 註冊連結樣式 */
+        .register-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #4fd5da;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Login</h2>
+
+    <div class="input-field">
+        <input type="text" placeholder=" " id="username">
+        <span class="input-icon">👤</span>
+    </div>
+
+    <div class="input-field">
+        <input type="password" placeholder=" " id="password">
+        <span class="input-icon">🔒</span>
+    </div>
+
+    <div class="options">
+        <label><input type="checkbox"> Remember me</label>
+        <a href="#">Forgot password?</a>
+    </div>
+
+    <button class="login-button" type="submit">Login</button>
+
+    <div class="register-link">
+        Don't have an account? <a href="#">Register</a>
+    </div>
+</div>
+
+</body>
+</html>
