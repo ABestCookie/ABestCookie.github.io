@@ -16,5 +16,6 @@
 
 ### 我的偉大事蹟
 
-* [我的第一個用PyQt做的網頁瀏覽器](netbrowser/eula.md)**(2024.3~ 2024.7)**
-* [電腦使用防止鎖](Computer-Lock/README.md)
+* [我的第一個用PyQt做的網頁瀏覽器](https://github.com/ABestCookie/Qtbrowser)**(開發週期約2024.3~ 2024.7)**
+* [電腦使用防止鎖](https://github.com/ABestCookie/Computer-Lock)**(開發周期約2024.7~2024.9)**
+* [終界祭壇尋找器](https://github.com/ABestCookie/End-Portal-Finder)**(開發週期約2024.10~2024.11)**
