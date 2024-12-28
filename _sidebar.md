@@ -8,3 +8,4 @@
     * [한국어](/kr.md) 
 * [更新日誌](/update-log.md)
 * [OSU!紀錄](/osu.md)
+* [檔案](/file_download.md)
