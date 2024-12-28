@@ -4,14 +4,15 @@
 > 2024.12.24
 
 
-<iframe width="560" height="600" src="https://www.youtube.com/embed/5ranZmguhHQ?si=Bhw2OsStSWvMlJL2"></iframe>
+<iframe src="https://drive.google.com/file/d/1vmzIkSPGyPV-S62cnlj9id4a6-m-c3Lr/preview" width="640" height="480" allow="autoplay"></iframe>
+
 
 <p>シカ色デイズ / 鹿色Days / Shikairo Days</p>
 
 ## Burning
 > 2024.12.12
 
-<iframe width="560" height="600" src="https://www.youtube.com/embed/K64iKyi4Kv4?si=t3rTEzof59RF4G3F"></iframe>
+<iframe src="https://drive.google.com/file/d/17P8oWM9hD2w3vgsWderhFeCsyG5EPNPZ/preview" width="640" height="480" allow="autoplay"></iframe>
 
 OSU!-羊文学「Burning」|  推しの子 2期ED
 
@@ -25,7 +26,7 @@ osu圖譜 : Burning (TV Size)
 ## Mephisto
 >2024.11.29
 
-<iframe width="560" height="600" src="https://www.youtube.com/embed/YUqy7vNNz9U?si=Iav_6Tps4cirxeF7"></iframe>
+<iframe src="https://drive.google.com/file/d/1tS1-xiAscw0Lu8giuEtn7k6G3PIdcmdq/preview" width="640" height="480" allow="autoplay"></iframe>
 
 不放normal的了，改放Hard的。
 
