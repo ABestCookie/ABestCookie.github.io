@@ -1,8 +1,8 @@
-<h1>檔案下載</h1>
+＃ 檔案下載
 
-| file |  |
-| :--: | :--: |
-| **chilledwindows** | [link](https://drive.google.com/file/d/1UVGMyD49icI6YIHVIH9If4VURM9r0lbE/view?usp=sharing) |
+| file | link | SHA-256 |
+| :--: | :--: | :--: |
+| **chilledwindows.exe** | [Google Drive](https://drive.google.com/file/d/1UVGMyD49icI6YIHVIH9If4VURM9r0lbE/view?usp=sharing) | ccb9502bf8ba5becf8b758ca04a5625c30b79e2d10d2677cc43ae4253e1288ec |
 
 ## 驗證檔案安全性(檢查哈希值)
 
@@ -69,4 +69,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 **或著你可以造訪我10分鐘寫出來的網頁**[點我](https://abestcookie.github.io/hash-check/)
+
 
