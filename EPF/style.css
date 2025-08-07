@@ -21,9 +21,15 @@ h1 {
 }
 
 .input-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  display: flex;
+  gap: 20px; /* 組與組之間的間距，可自行調整 */
+}
+
+.input-set {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 每組內label/input之間的間距 */
+  flex: 1;
 }
 
 label {
