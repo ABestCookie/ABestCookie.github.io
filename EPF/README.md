@@ -37,9 +37,9 @@ python ui.py
 [網頁版](/index.html 'ignore')
 
 ## 📜 Licenses
->以下內容跟第三方函式庫的著作權有關，寫來保命的
->
->以下內容完全由AI生成，可能會有錯誤
+?>以下內容跟第三方函式庫的著作權有關，寫來保命的
+
+!>以下內容完全由AI生成，可能會有錯誤
 
 本工具使用以下外部開源套件，下方為原專案授權條款：
 
@@ -118,6 +118,7 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
+
 
 
 
