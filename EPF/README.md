@@ -32,9 +32,9 @@ python ui.py
 
 ## 如果你是普通人的話
 
-電腦的話看右邊，你應該會找到一個叫releases的東西，點下去自己選檔案下載👍
+[下載連結](https://github.com/ABestCookie/End-Portal-Finder/releases/download/v1.1.0/End-Portal-Finder.exe 'ignore')
 
-~~手機的話你不可能用這東西，我就不講了~~
+[網頁版](/index.html 'ignore')
 
 ## 📜 Licenses
 >以下內容跟第三方函式庫的著作權有關，寫來保命的
@@ -118,6 +118,7 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
+
 
 
 
