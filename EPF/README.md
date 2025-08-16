@@ -13,20 +13,20 @@
 
 ### 1️⃣ 使用 Git 將專案複製到本地
 
-```
+```bash
 git clone https://github.com/ABestCookie/End-Portal-Finder.git
 cd End-Portal-Finder
 ```
 
 ### 2️⃣ 安裝依賴套件（建議搭配虛擬環境，如uv之類的）
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
 ### 3️⃣ 執行主程式
 
-```
+```bash
 python ui.py
 ```
 
@@ -118,6 +118,7 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
+
 
 
 
