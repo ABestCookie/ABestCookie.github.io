@@ -12,7 +12,3 @@
 document.getElementById('tip-version').innerText = Docsify.version
 </script>
 
-<small>瀏覽器語系：<span id='tip-language'>loading...</span>
-<script>
-  document.getElementById('tip-language').innerText=navigator.language.toLowerCase
-</script>
