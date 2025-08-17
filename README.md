@@ -6,7 +6,7 @@
 
 
 
-<small>當前docsify版本: <span id='tip-version'>loading...</span></small>
+當前docsify版本: <span id='tip-version'>loading...</span>
 
 <script>
 document.getElementById('tip-version').innerText = Docsify.version
