@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="docsify/lib/themes/vue.css">
 </head>
 <body>
+  <script src="docsify/lib/docsify.min.js"></script>
   <div id="app">loading...<br />need help?</div>
   <script>
     window.$docsify = {
@@ -22,6 +23,7 @@
       relativePath: true,
       coverpage: true,
       onlyCover: true,
+      //執行script 
       executeScript: true,
       search: {
         placeholder: '點擊以搜尋',
@@ -29,18 +31,20 @@
       }
     };
   </script>
-  <script src="docsify/lib/docsify.min.js"></script>
+  
   <script src="docsify/lib/plugins/search.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
   <script src="docsify/lib/plugins/emoji.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/index.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/external-script.min.js"></script>
+  <script>
+      console.log(window.Docsify.version)
+  </script>
   
   
 </body>
 </html>
-
-
 
 
 

@@ -6,9 +6,14 @@
 
 
 
+
 <small>當前docsify版本: <span id='tip-version'>loading...</span></small>
 
-<script>
-document.getElementById('tip-version').innerText = Docsify.version
-</script>
 
+<small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
+    
+<script>
+    const language = navigator.language || navigator.userLanguage; // 獲取瀏覽器語言
+    document.getElementById('tip-language').innerText = language.toLowerCase(); // 使用括號呼叫方法
+    document.getElementById('tip-version').innerText = window.Docsify.version;
+</script>
