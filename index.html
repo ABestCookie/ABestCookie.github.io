@@ -55,6 +55,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       cursor: pointer;
       z-index: 10000;
+      user-select: none; /* 避免誤觸選中文字 */
     }
 
     /* 中央彈窗背景 */
@@ -69,6 +70,7 @@
       justify-content: center;
       align-items: center;
       z-index: 10001;
+      touch-action: none; /* 防止背景滾動干擾 */
     }
 
     /* 彈窗內容 */
@@ -103,6 +105,33 @@
       to { transform: scale(1); opacity: 1; }
     }
   </style>
+
+  <script>
+    const modal = document.getElementById('floating-modal');
+    const toggle = document.getElementById('floating-toggle');
+    const closeBtn = document.getElementById('modal-close');
+
+    // 開啟彈窗
+    toggle.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+    });
+
+    // 關閉彈窗
+    function hideModal() {
+      modal.classList.add('hidden');
+    }
+
+    closeBtn.addEventListener('click', hideModal);
+    closeBtn.addEventListener('touchstart', hideModal);
+
+    // 點擊背景也能關閉
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) hideModal();
+    });
+    modal.addEventListener('touchstart', (e) => {
+      if (e.target === modal) hideModal();
+    });
+  </script>
 
   <script>
     const modal = document.getElementById('floating-modal');
@@ -161,6 +190,7 @@
   
 </body>
 </html>
+
 
 
 
