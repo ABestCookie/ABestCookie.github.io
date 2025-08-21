@@ -115,9 +115,11 @@
   </style>
 
   <script>
-    const modal = document.getElementById('floating-modal');
-    const openBtn = document.getElementById('open-modal-btn');
-    const closeBtn = document.getElementById('modal-close-btn');
+    window.onload = () => {
+      const modal = document.getElementById('floating-modal');
+      const openBtn = document.getElementById('open-modal-btn');
+      const closeBtn = document.getElementById('modal-close-btn');
+
 
     // 打開
     openBtn.addEventListener('click', () => {
@@ -165,6 +167,7 @@
   
 </body>
 </html>
+
 
 
 
