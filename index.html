@@ -28,37 +28,39 @@
   <script src="docsify/lib/docsify.min.js"></script>
   <div id="app">loading...<br />need help?</div>
   
-  <!-- 側邊開關按鈕 -->
-  <div id="floating-toggle">ℹ️</div>
+  <!-- 打開彈窗的按鈕 -->
+  <button id="open-modal-btn">顯示資訊</button>
 
   <!-- 中間彈窗 -->
   <div id="floating-modal" class="hidden">
     <div class="modal-content">
-      <span id="modal-close">&times;</span>
       <h2>歡迎來到 Docsify</h2>
       <p>這裡可以放公告、版本資訊或自訂提示。</p>
+      <button id="modal-close-btn">關閉</button>
     </div>
   </div>
 
   <style>
-    /* 側邊開關按鈕 */
-    #floating-toggle {
+    /* 打開彈窗的按鈕 */
+    #open-modal-btn {
       position: fixed;
-      top: 50%;
-      left: 20px;
-      transform: translateY(-50%);
+      top: 20px;
+      right: 20px;
+      padding: 10px 16px;
       background: #3f51b5;
       color: white;
-      font-size: 20px;
-      padding: 10px 12px;
-      border-radius: 50%;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      border: none;
+      border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
       z-index: 10000;
-      user-select: none; /* 避免誤觸選中文字 */
     }
 
-    /* 中央彈窗背景 */
+    #open-modal-btn:hover {
+      background: #303f9f;
+    }
+
+    /* 彈窗背景 */
     #floating-modal {
       position: fixed;
       top: 0;
@@ -70,7 +72,6 @@
       justify-content: center;
       align-items: center;
       z-index: 10001;
-      touch-action: none; /* 防止背景滾動干擾 */
     }
 
     /* 彈窗內容 */
@@ -81,17 +82,24 @@
       width: 400px;
       max-width: 80%;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      position: relative;
+      text-align: center;
       animation: fadeIn 0.3s ease-out;
     }
 
     /* 關閉按鈕 */
-    #modal-close {
-      position: absolute;
-      top: 8px;
-      right: 12px;
-      font-size: 24px;
+    #modal-close-btn {
+      margin-top: 15px;
+      padding: 8px 16px;
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
+    }
+
+    #modal-close-btn:hover {
+      background: #d32f2f;
     }
 
     /* 隱藏狀態 */
@@ -108,52 +116,18 @@
 
   <script>
     const modal = document.getElementById('floating-modal');
-    const toggle = document.getElementById('floating-toggle');
-    const closeBtn = document.getElementById('modal-close');
+    const openBtn = document.getElementById('open-modal-btn');
+    const closeBtn = document.getElementById('modal-close-btn');
 
-    // 開啟彈窗
-    toggle.addEventListener('click', () => {
+    // 打開
+    openBtn.addEventListener('click', () => {
       modal.classList.remove('hidden');
     });
 
-    // 關閉彈窗
-    function hideModal() {
+    // 關閉
+    closeBtn.addEventListener('click', () => {
       modal.classList.add('hidden');
-    }
-
-    closeBtn.addEventListener('click', hideModal);
-    closeBtn.addEventListener('touchstart', hideModal);
-
-    // 點擊背景也能關閉
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) hideModal();
     });
-    modal.addEventListener('touchstart', (e) => {
-      if (e.target === modal) hideModal();
-    });
-  </script>
-
-  <script>
-    const modal = document.getElementById('floating-modal');
-    const toggle = document.getElementById('floating-toggle');
-    const closeBtn = document.getElementById('modal-close');
-
-    // 點擊側邊按鈕 → 顯示彈窗
-    toggle.onclick = () => {
-      modal.classList.remove('hidden');
-    };
-
-    // 點擊關閉按鈕 → 隱藏彈窗
-    closeBtn.onclick = () => {
-      modal.classList.add('hidden');
-    };
-
-    // 點擊背景區域 → 隱藏彈窗
-    modal.onclick = (e) => {
-      if (e.target === modal) {
-        modal.classList.add('hidden');
-      }
-    };
   </script>
   
   <script>
@@ -190,6 +164,7 @@
   
 </body>
 </html>
+
 
 
 
