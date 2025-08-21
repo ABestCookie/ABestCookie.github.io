@@ -27,6 +27,106 @@
 <body>
   <script src="docsify/lib/docsify.min.js"></script>
   <div id="app">loading...<br />need help?</div>
+  
+  <!-- 側邊開關按鈕 -->
+  <div id="floating-toggle">ℹ️</div>
+
+  <!-- 中間彈窗 -->
+  <div id="floating-modal" class="hidden">
+    <div class="modal-content">
+      <span id="modal-close">&times;</span>
+      <h2>歡迎來到 Docsify</h2>
+      <p>這裡可以放公告、版本資訊或自訂提示。</p>
+    </div>
+  </div>
+
+  <style>
+    /* 側邊開關按鈕 */
+    #floating-toggle {
+      position: fixed;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      background: #3f51b5;
+      color: white;
+      font-size: 20px;
+      padding: 10px 12px;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    /* 中央彈窗背景 */
+    #floating-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10001;
+    }
+
+    /* 彈窗內容 */
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 400px;
+      max-width: 80%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      position: relative;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    /* 關閉按鈕 */
+    #modal-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* 隱藏狀態 */
+    .hidden {
+      display: none;
+    }
+
+    /* 動畫 */
+    @keyframes fadeIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+
+  <script>
+    const modal = document.getElementById('floating-modal');
+    const toggle = document.getElementById('floating-toggle');
+    const closeBtn = document.getElementById('modal-close');
+
+    // 點擊側邊按鈕 → 顯示彈窗
+    toggle.onclick = () => {
+      modal.classList.remove('hidden');
+    };
+
+    // 點擊關閉按鈕 → 隱藏彈窗
+    closeBtn.onclick = () => {
+      modal.classList.add('hidden');
+    };
+
+    // 點擊背景區域 → 隱藏彈窗
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
+      }
+    };
+  </script>
+  
   <script>
     window.$docsify = {
       name: '',
@@ -61,6 +161,7 @@
   
 </body>
 </html>
+
 
 
 
