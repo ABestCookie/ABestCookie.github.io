@@ -1,4 +1,4 @@
->**使用chrome瀏覽器體驗更好**
+>**餅乾的專屬倉庫**
 
 * [主頁](/)
     * [繁體中文](/README.md)
@@ -11,6 +11,7 @@
        * [儲存庫](https://github.com/ABestCookie/End-Portal-Finder/tree/main) 
 * [blog](/)
    * [why](/blog/why.md)
+
 
 
 
