@@ -1,1 +1,0 @@
-# ABestCookie's project documentation
