@@ -3,7 +3,7 @@
 * [HomePage](/)
     * [English](/README.md)
 * [下載中心](/file_download.md)
-* [專案](/project.md)
+* [Project](/project.md)
    * [End-Portal-Finder](/EPF/README.md)
        * [網頁版](/EPF ':ignore')
        * [教學文檔](/EPF/help/README.md)
