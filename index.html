@@ -35,7 +35,13 @@
   <div id="floating-modal">
     <div class="modal-content">
       <h2>設定及資訊</h2>
-      <p>這裡可以放公告、版本資訊或自訂提示。</p>
+      <small>當前docsify版本: <span id='tip-version'>loading...</span></small>
+      <small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
+      <script>
+        const language = navigator.language || navigator.userLanguage; // 獲取瀏覽器語言
+        document.getElementById('tip-language').innerText = language.toLowerCase(); // 使用括號呼叫方法
+        document.getElementById('tip-version').innerText = window.Docsify.version;
+      </script>
       <button id="modal-close-btn">關閉</button>
     </div>
   </div>
@@ -180,6 +186,7 @@
   
 </body>
 </html>
+
 
 
 
