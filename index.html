@@ -157,9 +157,9 @@
       });
 
     };
-  </script>
-  
-  <script>
+
+
+    
     window.$docsify = {
       name: '',
       repo: 'https://github.com/ABestCookie',
@@ -173,9 +173,24 @@
       onlyCover: true,
       //執行script 
       executeScript: true,
+      fallbackLanguages: ['en-us'],
+      nameLink: {
+        '/en-us/': '#/en-us/',
+        '/': '#/'
+      }
       search: {
-        placeholder: '點擊以搜尋',
-        noData: '無結果!'
+        maxAge: 86400000, // 快取時間，單位：毫秒
+        paths: 'auto',    // 自動索引
+        placeholder: {
+        '/': '點擊以搜尋',
+        '/en-us/': 'Click to search'
+        },
+        noData: {
+          '/': '查無結果!',
+          '/en-us/': 'No results!'
+        },
+        // 建議搭配語系命名空間
+        pathNamespaces: ['/en-us']
       }
     };
   </script>
@@ -194,6 +209,7 @@
   
 </body>
 </html>
+
 
 
 
