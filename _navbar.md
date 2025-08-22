@@ -3,7 +3,8 @@
     * [下載](/file_download.md)
 * 🌏語言
     * [繁體中文](/README.md)
-    * [English](/en-us)
+    * [English](/en-us/)
+
 
 
 
