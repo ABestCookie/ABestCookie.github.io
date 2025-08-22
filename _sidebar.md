@@ -2,7 +2,7 @@
 
 * [主頁](/)
     * [繁體中文](/README.md)
-    * [English](/en-us) 
+    * [English](/en-us/) 
 * [下載中心](/file_download.md)
 * [專案](/project.md)
    * [End-Portal-Finder](/EPF/README.md)
@@ -11,6 +11,7 @@
        * [儲存庫](https://github.com/ABestCookie/End-Portal-Finder/tree/main) 
 * [blog](/)
    * [why](/blog/why.md)
+
 
 
 
