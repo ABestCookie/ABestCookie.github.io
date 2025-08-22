@@ -135,6 +135,13 @@
         modal.classList.remove('show');
       });
 
+      // 點擊黑色背景區域 → 關閉
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('show');
+        }
+      });
+
     };
   </script>
   
@@ -173,6 +180,7 @@
   
 </body>
 </html>
+
 
 
 
