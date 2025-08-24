@@ -24,9 +24,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="docsify/lib/themes/vue.css">
 </head>
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
 
 
-<<script>
+<script>
   async function sha256(message) {
     if (!window.crypto || !window.crypto.subtle) {
       console.error("Your browser does not support crypto.subtle!");
@@ -281,6 +283,7 @@
   
 </body>
 </html>
+
 
 
 
