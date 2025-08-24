@@ -128,11 +128,35 @@
   </style>
 
   <script>
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
     window.onload = () => {
       const modal = document.getElementById('floating-modal');
       const openBtn = document.getElementById('open-modal-btn');
       const closeBtn = document.getElementById('modal-close-btn');
       const language = navigator.language || navigator.userLanguage; // 獲取瀏覽器語言
+      const correctHash = "0ea8f6b3e97f3920ebc96cb8c9a0a5a93d65c5cf2938fda3a9a520fdfbff7c4f";
+      const enableBtn = document.getElementById('enable-debug-btn');
+      const pwdInput = document.getElementById('debug-password');
+      const debugResult = document.getElementById('debug-result');
+
+      enableBtn.addEventListener('click', async () => {
+        const pwd = pwdInput.value;
+        const hash = await sha256(pwd);
+        if (hash === correctHash) {
+          debugResult.innerText = "密碼正確，正在啟用 debug 工具...";
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/eruda';
+          document.body.appendChild(s);
+          s.onload = function () { eruda.init(); };
+        } else {
+          debugResult.innerText = "密碼錯誤！";
+        }
+      });
 
       
       document.getElementById('tip-language').innerText = language.toLowerCase(); // 使用括號呼叫方法
@@ -246,6 +270,7 @@
   
 </body>
 </html>
+
 
 
 
