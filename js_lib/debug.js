@@ -6,7 +6,7 @@ async function sha256(message) {
 }
 
 window.onload = async function () {
-  const url = new URL(window.location.href);
+  const url = new URL(window.location.origin + window.location.search);
   const debug = url.searchParams.get("debug");
   const password = url.searchParams.get("password");
 
