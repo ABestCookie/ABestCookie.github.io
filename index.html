@@ -183,7 +183,7 @@
       var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
       var timeString = hours.toString().padStart(2, '0') + ":" + 
             minutes.toString().padStart(2, '0') + ":" + 
-            seconds.toString().padStart(2, '0') + " " + timezone.ToString();
+            seconds.toString().padStart(2, '0') + " " + timezone;
       document.getElementById("time").innerHTML = timeString;
     }
  
@@ -241,6 +241,7 @@
   
 </body>
 </html>
+
 
 
 
