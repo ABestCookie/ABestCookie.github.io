@@ -126,7 +126,6 @@
   </style>
 
   <script>
-    
     window.onload = () => {
       const modal = document.getElementById('floating-modal');
       const openBtn = document.getElementById('open-modal-btn');
@@ -146,11 +145,10 @@
         console.log("您正在使用桌面设备");
       }
 
-
       var getUrlString = location.href;
       var url = new URL(getUrlString);
-      var debug = url.searchParams.get('debug');
-      let debug = debug.toLowerCase();
+      var debugParam = url.searchParams.get('debug');
+      var debug = (debugParam || '').toLowerCase();
       if (debug === "true") {
         var s = document.createElement('script');
         s.src = 'https://cdn.jsdelivr.net/npm/eruda';
@@ -167,10 +165,8 @@
         window.alert("已啟用移動設備debug");
       });
 
-      
-      document.getElementById('tip-language').innerText = language.toLowerCase(); // 使用括號呼叫方法
+      document.getElementById('tip-language').innerText = language.toLowerCase();
       document.getElementById('tip-version').innerText = window.Docsify.version;
-
 
       // 打開
       openBtn.addEventListener('click', () => {
@@ -198,11 +194,10 @@
 
     };
 
-    
     fetch('https://api.ipify.org?format=json')
       .then(res => res.json())
       .then(data => {
-      document.getElementById('ip-box').innerText = "你的 IP: " + data.ip;
+        document.getElementById('ip-box').innerText = "你的 IP: " + data.ip;
       })
       .catch(err => {
         document.getElementById('ip-box').innerText = "無法取得 IP";
@@ -214,7 +209,7 @@
       var hours = now.getHours();
       var minutes = now.getMinutes();
       var seconds = now.getSeconds();
-      var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       var timeString = hours.toString().padStart(2, '0') + ":" + 
             minutes.toString().padStart(2, '0') + ":" + 
             seconds.toString().padStart(2, '0') + " " + timezone;
@@ -233,7 +228,7 @@
       loadSidebar: true,
       loadNavbar: true,
       subMaxLevel: 2,
-        // 启用相对路径
+      // 启用相对路径
       relativePath: true,
       coverpage: true,
       onlyCover: true,
@@ -279,73 +274,3 @@
   
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
