@@ -111,9 +111,20 @@
       cursor: pointer;
       font-size: 16px;
     }
-
     #modal-close-btn:hover {
       background: #d32f2f;
+    }
+
+    /* 啟用debug按鈕 */
+    #modal-close-btn {
+      margin-top: 15px;
+      padding: 8px 16px;
+      background: #66cc00;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
     }
 
     
@@ -158,11 +169,15 @@
       }
 
       enableBtn.addEventListener('click', () => {
-        var s = document.createElement('script');
-        s.src = 'https://cdn.jsdelivr.net/npm/eruda';
-        document.body.appendChild(s);
-        s.onload = function () { eruda.init(); };
-        window.alert("已啟用移動設備debug");
+        if (debug === "true") {
+          window.alert("已使用網址參數啟用移動設備debug");
+        } else {
+          var s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/eruda';
+          document.body.appendChild(s);
+          s.onload = function () { eruda.init(); };
+          window.alert("已啟用移動設備debug");
+        }
       });
 
       document.getElementById('tip-language').innerText = language.toLowerCase();
