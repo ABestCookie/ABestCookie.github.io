@@ -134,7 +134,30 @@
       const language = navigator.language || navigator.userLanguage; // 獲取瀏覽器語言
       const correctHash = "0ea8f6b3e97f3920ebc96cb8c9a0a5a93d65c5cf2938fda3a9a520fdfbff7c4f";
       const enableBtn = document.getElementById('enable-debug-btn');
-      
+
+      function isMobileDevice() {
+        // 检查 userAgentData 是否存在且 mobile 属性为 true
+        return navigator.userAgentData && navigator.userAgentData.mobile;
+      }
+
+      if (isMobileDevice()) {
+        console.log("您正在使用移动设备");
+      } else {
+        console.log("您正在使用桌面设备");
+      }
+
+
+      var getUrlString = location.href;
+      var url = new URL(getUrlString);
+      var debug = url.searchParams.get('debug');
+      let debug = debug.toLowerCase();
+      if (debug === "true") {
+        var s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/eruda';
+        document.body.appendChild(s);
+        s.onload = function () { eruda.init(); };
+        window.alert("已啟用移動設備debug");
+      };
 
       enableBtn.addEventListener('click', () => {
         var s = document.createElement('script');
@@ -256,6 +279,7 @@
   
 </body>
 </html>
+
 
 
 
