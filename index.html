@@ -3,25 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>Cookie's personal website</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
 
   <!-- Open Graph 基本資訊 -->
   <meta property="og:title" content="Cookie's personal website" />
-  <meta property="og:description" content="這是一個saba好可
-    愛的文件站" />
+  <meta property="og:description" content="這是一個saba好可愛的文件站" />
   <meta property="og:image" content="https://abestcookie.github.io/img/IMG_0688.jpeg" />
   <meta property="og:type" content="website" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Cookie's personal website" />
-  <meta name="twitter:description" content="這是一個saba好可
-    愛的文件站" />
+  <meta name="twitter:description" content="這是一個saba好可愛的文件站" />
   <meta name="twitter:image" content="https://abestcookie.github.io/img/IMG_0688.jpeg" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="docsify/lib/themes/vue.css">
   <link rel="stylesheet" href="test/vanilla_ui.css">
 </head>
@@ -42,7 +39,7 @@
         <h3>目前時間：<div id="time"></div></h3>
         <h3><div id="ip-box">取得中...</div></h3>
         <h3>手動啟用 Debug：</h3>
-        <button class="minecraft-button" style="width:300px;">啟用 debug</button><br />
+        <button class="minecraft-button" style="width:300px;" id="enable-debug-btn">啟用 debug</button><br />
         <small>當前docsify版本: <span id='tip-version'>loading...</span></small> | 
         <small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
       </div>
@@ -50,11 +47,10 @@
   </div>
 
   <style>
-    /* 打開彈窗的按鈕 */
     #open-modal-btn {
       position: fixed;
-      display: flex;         /* 使用 Flexbox 佈局 */
-      align-items: center;   /* 垂直居中 */
+      display: flex;
+      align-items: center;
       top: 28px;
       padding: 10px 16px;
       background: #3f51b5;
@@ -65,12 +61,9 @@
       font-size: 16px;
       z-index: 10000;
     }
-
     #open-modal-btn:hover {
       background: #303f9f;
     }
-
-    /* 彈窗背景 */
     #floating-modal {
       position: fixed;
       top: 0;
@@ -81,24 +74,17 @@
       justify-content: center;
       align-items: center;
       z-index: 10001;
-      display: none; /* 預設隱藏 */
+      display: none;
     }
-
-    /* 顯示時用 show class */
     #floating-modal.show {
       display: flex;
     }
-
-
-    /* 彈窗內容 */
     .minecraft-container {
       width: 400px;
       max-width: 80%;
       text-align: center;
       animation: fadeIn 0.3s ease-out;
     }
-
-    /* 關閉按鈕 */
     #modal-close-btn {
       margin-top: 15px;
       padding: 8px 16px;
@@ -112,11 +98,6 @@
     #modal-close-btn:hover {
       background: #d32f2f;
     }
-
-
-    
-
-    /* 動畫 */
     @keyframes fadeIn {
       from { transform: scale(0.9); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
@@ -128,12 +109,11 @@
       const modal = document.getElementById('floating-modal');
       const openBtn = document.getElementById('open-modal-btn');
       const closeBtn = document.getElementById('modal-close-btn');
-      const language = navigator.language || navigator.userLanguage; // 獲取瀏覽器語言
+      const language = navigator.language || navigator.userLanguage;
       const correctHash = "0ea8f6b3e97f3920ebc96cb8c9a0a5a93d65c5cf2938fda3a9a520fdfbff7c4f";
       const enableBtn = document.getElementById('enable-debug-btn');
 
       function isMobileDevice() {
-        // 检查 userAgentData 是否存在且 mobile 属性为 true
         return navigator.userAgentData && navigator.userAgentData.mobile;
       }
 
@@ -168,26 +148,22 @@
       });
 
       document.getElementById('tip-language').innerText = language.toLowerCase();
-      document.getElementById('tip-version').innerText = window.Docsify.version;
+      document.getElementById('tip-version').innerText = window.Docsify && window.Docsify.version ? window.Docsify.version : 'unknown';
 
-      // 打開
       openBtn.addEventListener('click', () => {
         modal.classList.add('show');
       });
 
-      // 關閉
       closeBtn.addEventListener('click', () => {
         modal.classList.remove('show');
       });
 
-      // 點擊黑色背景區域 → 關閉
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
           modal.classList.remove('show');
         }
       });
       
-      // 按下 ESC → 關閉
       document.addEventListener('keydown', (e) => {
         if (e.key === "Escape") {
           modal.classList.remove('show');
@@ -218,8 +194,8 @@
       document.getElementById("time").innerHTML = timeString;
     }
  
-    // 每秒钟更新一次时间
-    setInterval(updateTime, 100);
+    // 每秒钟更新一次时间（改 1000ms）
+    setInterval(updateTime, 1000);
   </script>
   
   <script>
@@ -230,11 +206,9 @@
       loadSidebar: true,
       loadNavbar: true,
       subMaxLevel: 2,
-      // 启用相对路径
       relativePath: true,
       coverpage: true,
       onlyCover: true,
-      //執行script 
       executeScript: true,
       fallbackLanguages: ['en-us'],
       nameLink: {
@@ -242,8 +216,8 @@
         '/': '#/'
       },
       search: {
-        maxAge: 86400000, // 快取時間，單位：毫秒
-        paths: 'auto',    // 自動索引
+        maxAge: 86400000,
+        paths: 'auto',
         placeholder: {
         '/': '點擊以搜尋',
         '/en-us/': 'Click to search'
@@ -252,7 +226,6 @@
           '/': '查無結果!',
           '/en-us/': 'No results!'
         },
-        // 建議搭配語系命名空間
         pathNamespaces: ['/en-us/']
       }
     };
@@ -267,12 +240,11 @@
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/external-script.min.js"></script>
   <script src="js_lib/debug.js"></script>
   <script>
-      console.log("dicsify version:" + window.Docsify.version)
+      console.log("dicsify version:" + (window.Docsify && window.Docsify.version ? window.Docsify.version : 'unknown'))
       console.log(navigator.userAgent)
       console.log("CPU 執行緒數:" + navigator.hardwareConcurrency)
       console.log("記憶體大小:" + navigator.deviceMemory)
   </script>
-  
   
 </body>
 </html>
