@@ -23,6 +23,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="docsify/lib/themes/vue.css">
+  <link rel="stylesheet" href="test/vanilla_ui.css">
 </head>
 
 <body>
@@ -34,16 +35,17 @@
 
   <!-- 中間彈窗 -->
   <div id="floating-modal">
-    <div class="modal-content">
-      <h2>設定及資訊</h2>
-      <h3>目前時間：<div id="time"></div></h3>
-      <h3><div id="ip-box">取得中...</div></h3>
-      <h3>手動啟用 Debug：</h3>
-      <button id="enable-debug-btn">啟用 debug</button><br />
-      <button id="modal-close-btn">關閉</button>
-      <br />
-      <small>當前docsify版本: <span id='tip-version'>loading...</span></small> | 
-      <small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
+    <div class="minecraft-container">
+      <button class="minecraft-close-button" id="modal-close-btn">x</button>
+      <span>設定及資訊</span>
+      <div class="minecraft-container-dark" style="font-size:16px;">
+        <h3>目前時間：<div id="time"></div></h3>
+        <h3><div id="ip-box">取得中...</div></h3>
+        <h3>手動啟用 Debug：</h3>
+        <button class="minecraft-button" style="width:300px;">啟用 debug</button><br />
+        <small>當前docsify版本: <span id='tip-version'>loading...</span></small> | 
+        <small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
+      </div>
     </div>
   </div>
 
@@ -89,13 +91,9 @@
 
 
     /* 彈窗內容 */
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
+    .minecraft-container {
       width: 400px;
       max-width: 80%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       text-align: center;
       animation: fadeIn 0.3s ease-out;
     }
@@ -115,17 +113,6 @@
       background: #d32f2f;
     }
 
-    /* 啟用debug按鈕 */
-    #enable-debug-btn {
-      margin-top: 15px;
-      padding: 8px 16px;
-      background: #66cc00;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
 
     
 
