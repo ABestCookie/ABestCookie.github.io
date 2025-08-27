@@ -106,6 +106,17 @@
   </style>
 
   <script>
+    var getUrlString = location.href;
+    var url = new URL(getUrlString);
+    var debugParam = url.searchParams.get('debug');
+    var debug = (debugParam || '').toLowerCase();
+    if (debug === "true") {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/eruda';
+      document.body.appendChild(s);
+      s.onload = function () { eruda.init(); };
+      window.alert("已啟用移動設備debug");
+    }
     window.onload = () => {
       const modal = document.getElementById('floating-modal');
       const openBtn = document.getElementById('open-modal-btn');
@@ -124,17 +135,7 @@
         console.log("您正在使用桌面设备");
       }
 
-      var getUrlString = location.href;
-      var url = new URL(getUrlString);
-      var debugParam = url.searchParams.get('debug');
-      var debug = (debugParam || '').toLowerCase();
-      if (debug === "true") {
-        var s = document.createElement('script');
-        s.src = 'https://cdn.jsdelivr.net/npm/eruda';
-        document.body.appendChild(s);
-        s.onload = function () { eruda.init(); };
-        window.alert("已啟用移動設備debug");
-      }
+      
 
       enableBtn.addEventListener('click', () => {
         if (debug === "true") {
