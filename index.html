@@ -39,7 +39,7 @@
         <p></p>目前時間：<div id="time"></div></p>
         <p><div id="ip-box">取得中...</div></p>
         <h5>手動啟用 Debug：</h5>
-        <button class="minecraft-button" style="width:200px; justify-content: center;" id="enable-debug-btn">啟用 debug</button><br />
+        <button class="minecraft-button" style="width:200px;" id="enable-debug-btn">啟用 debug</button><br />
         <small>當前docsify版本: <span id='tip-version'>loading...</span></small> | 
         <small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
       </div>
@@ -47,10 +47,12 @@
   </div>
 
   <style>
+    .body {
+      display: flex;
+      justify-content: center
+    }
     #open-modal-btn {
       position: fixed;
-      display: flex;
-      align-items: center;
       top: 28px;
       padding: 10px 16px;
       background: #3f51b5;
@@ -80,6 +82,8 @@
       display: flex;
     }
     .minecraft-container {
+      display: flex;
+      justify-content: center
       width: 400px;
       max-width: 80%;
       text-align: center;
