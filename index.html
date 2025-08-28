@@ -34,7 +34,7 @@
   <div id="floating-modal">
     <div class="minecraft-container">
       <button class="minecraft-close-button" id="modal-close-btn">x</button>
-      <span>設定及資訊</span>
+      <span class="emoji">設定及資訊<img src="img/mc/a67qg-4ovq5.svg"></span>
       <div class="minecraft-container-dark">
         <small>當前docsify版本: <span id='tip-version'>loading...</span></small>
         <small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
@@ -48,6 +48,12 @@
   </div>
 
   <style>
+    .emoji img {
+      width: 1.2em;
+      height: 1.2em;
+      vertical-align: middle;
+    }
+
     
     #open-modal-btn {
       position: fixed;
