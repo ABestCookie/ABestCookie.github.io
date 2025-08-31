@@ -50,7 +50,11 @@
   <div id="hash-window">
     <button class="minecraft-close-button" id="hash-window-close-btn">x</button>
     <span>hash checker</span>
-    <div class="minecraft-container-dark"></div>
+    <div class="minecraft-container-dark">
+      <input type="file" id="fileInput">
+      <p>Hash: <span id="hashOutput"></span></p>
+
+    </div>
   </div>
 
   <style>
@@ -173,6 +177,28 @@
       const language = navigator.language || navigator.userLanguage;
       const correctHash = "0ea8f6b3e97f3920ebc96cb8c9a0a5a93d65c5cf2938fda3a9a520fdfbff7c4f";
       const enableBtn = document.getElementById('enable-debug-btn');
+
+      document.getElementById('fileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            alert("You didn't choose any file");
+            return;
+        }
+    
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            crypto.subtle.digest('SHA-256', e.target.result)
+                .then(hashBuffer => {
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                    console.log(hashHex);
+                    document.getElementById('hashOutput').textContent = hashHex;
+                })
+                .catch(err => console.error(err));
+        };
+    
+        reader.readAsArrayBuffer(file);
+      });
 
       function isMobileDevice() {
         return navigator.userAgentData && navigator.userAgentData.mobile;
