@@ -296,9 +296,18 @@
             seconds.toString().padStart(2, '0') + " " + timezone;
       document.getElementById("time").innerHTML = timeString;
     }
+
+    function updatebtn() {
+      if (url === "https://abestcookie.github.io/#/file_download") {
+        console.log("114514 191132")
+      } else {
+        document.getElementById('hash-button').classList.remove('show')
+      }
+    }
  
     // 每秒钟更新一次时间（改 1000ms）
     setInterval(updateTime, 1000);
+    setInterval(updatebtn, 1000)
   </script>
   
   <script>
