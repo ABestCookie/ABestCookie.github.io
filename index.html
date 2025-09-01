@@ -329,12 +329,7 @@
           '/': '查無結果!',
           '/en-us/': 'No results!'
         },
-        pathNamespaces: ['/en-us/'],
-        plugins: [
-          function (hook, vm) {
-            hook.afterEach(function (html, next) {
-              html += '<script>document.getElementById('hash-button').classList.remove('show')</script>';
-              next(html);
+        pathNamespaces: ['/en-us/']
             });
                 
           }
