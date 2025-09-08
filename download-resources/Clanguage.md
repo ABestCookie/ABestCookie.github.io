@@ -23,3 +23,38 @@ int main()
 	return ans;
 }
 ```
+
+data type
+```c
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+int main()
+{
+	char input[100];
+	int isnum = 1;
+	int i;
+	
+	
+	printf("please entry any number:");
+	fgets(input, sizeof(input), stdin);
+	input[strcspn(input, "\n")] = 0;
+	for (i = 0; input[i] != '\0'; i++)	{
+		if (i == 0 && input[i] == '-') continue;
+		if (!isdigit(input[i])) {
+			isnum = 0;
+			break;
+		}
+	}
+
+	if (isnum) {
+		printf("is int");
+	} else {
+		printf("is not int");
+	}
+	//等待任意鍵
+	printf("\npass any key to continue......");
+	_getch();
+	return 0;
+}
+```
