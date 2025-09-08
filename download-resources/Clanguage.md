@@ -4,6 +4,8 @@
 
 *9/8*
 
+scanf資料輸入及運算練習
+
 ```c
 #include<stdio.h>
 int main()
