@@ -1,4 +1,4 @@
-＃ 檔案下載
+# 檔案下載
 
 | file | link | SHA-256 |
 | :--: | :--: | :--: |
@@ -9,6 +9,9 @@
 ## 驗證檔案安全性(檢查哈希值)
 
 **點擊此處以跳轉至檔案檢查**[點我](/js_lib/hash_windows_display.md)
+
+![](https://abestcookie.github.io/img/IMG_0222.jpeg)
+
 
 
 
