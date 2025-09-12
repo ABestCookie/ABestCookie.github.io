@@ -1,4 +1,4 @@
-![](img/IMG_0222.jpeg)
+![](https://abestcookie.github.io/img/IMG_0222.jpeg)
 
 <script>
 const window = document.getElementById('hash-window');
