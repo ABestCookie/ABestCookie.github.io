@@ -12,9 +12,27 @@
 
 **點擊此處以跳轉至檔案檢查**[點我](/js_lib/hash_windows_display.md)
 
+<style>
+  .tab-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(35%, -45%);
+    padding: 0.25em 0.35em;
+    border-radius: 3px;
+    background: red;
+    color: white;
+    font-family: sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+  }
+</style>
+
+
 <!-- tabs:end -->
 
 ![](https://abestcookie.github.io/img/IMG_0222.jpeg)
+
 
 
 
