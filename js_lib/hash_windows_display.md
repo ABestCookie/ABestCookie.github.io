@@ -1,4 +1,4 @@
-## 目前需手動回到上一頁，動動手吧
+![](img/IMG_0222.jpeg)
 
 <script>
 const window = document.getElementById('hash-window');
