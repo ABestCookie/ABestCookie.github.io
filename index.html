@@ -29,7 +29,6 @@
   
   <!-- 打開彈窗的按鈕 -->
   <button id="open-modal-btn">⚙️</button>
-  <button id="hash-button">🔑</button>
   <!-- 中間彈窗 -->
   <div id="floating-modal">
     <div class="minecraft-container">
@@ -83,26 +82,6 @@
       background: #303f9f;
     }
 
-    #hash-button {
-      position: fixed;
-      top: 71px;
-      padding: 10px 16px;
-      background: #3f51b5;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      z-index: 10000;
-      display: none;
-    }
-    #hash-button:hover {
-      background: #303f9f;
-    }
-    #hash-button.show {
-      display: flex;
-    }
-    
     #floating-modal {
       position: fixed;
       top: 0;
@@ -177,7 +156,6 @@
       const modal = document.getElementById('floating-modal');
       const window = document.getElementById('hash-window');
       const openBtn = document.getElementById('open-modal-btn');
-      const hashopenBtn = document.getElementById('hash-button');
       const hashcloseBtn = document.getElementById('hash-window-close-btn');
       const closeBtn = document.getElementById('modal-close-btn');
       const language = navigator.language || navigator.userLanguage;
@@ -253,10 +231,6 @@
         }
       });
 
-      hashopenBtn.addEventListener('click', () => {
-        window.classList.add('show');
-      });
-
       hashcloseBtn.addEventListener('click', () => {
         window.classList.remove('show');
       });
@@ -296,18 +270,9 @@
             seconds.toString().padStart(2, '0') + " " + timezone;
       document.getElementById("time").innerHTML = timeString;
     }
-
-    function updatebtn() {
-      if (getUrlString === "https://abestcookie.github.io/#/file_download") {
-        console.log("114514 191132")
-      } else {
-        document.getElementById('hash-button').classList.remove('show')
-      }
-    }
  
     // 每秒钟更新一次时间（改 1000ms）
     setInterval(updateTime, 1000);
-    setInterval(updatebtn, 1000)
   </script>
   
   <script>
