@@ -10,12 +10,13 @@
 
 
 <script>
-const hashopenBtn = document.getElementById('hash-button');
+const window = document.getElementById('hash-window');
 window.classList.add('show');
 
 </script>
 
 **或著你可以造訪我10分鐘寫出來的網頁**[點我](https://abestcookie.github.io/hash-check/)
+
 
 
 
