@@ -8,14 +8,8 @@
 
 ## 驗證檔案安全性(檢查哈希值)
 
+**點擊此處以跳轉至檔案檢查**[點我](/js_lib/hash_windows_display.md)
 
-<script>
-const window = document.getElementById('hash-window');
-window.classList.add('show');
-
-</script>
-
-**或著你可以造訪我10分鐘寫出來的網頁**[點我](https://abestcookie.github.io/hash-check/)
 
 
 
