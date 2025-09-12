@@ -8,13 +8,14 @@
 
 <!-- tabs:start -->
 
-#### **驗證檔案安全性(檢查哈希值)**
+#### **驗證檔案安全性(檢查哈希值) <span class="tab-badge">Important!</span>**
 
 **點擊此處以跳轉至檔案檢查**[點我](/js_lib/hash_windows_display.md)
 
 <!-- tabs:end -->
 
 ![](https://abestcookie.github.io/img/IMG_0222.jpeg)
+
 
 
 
