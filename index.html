@@ -233,17 +233,20 @@
 
       hashcloseBtn.addEventListener('click', () => {
         window.classList.remove('show');
+        window.history.back();
       });
 
       window.addEventListener('click', (e) => {
         if (e.target === window) {
           window.classList.remove('show');
+          window.history.back();
         }
       });
       
       document.addEventListener('keydown', (e) => {
         if (e.key === "Escape") {
           window.classList.remove('show');
+          window.history.back();
         }
       });
 
