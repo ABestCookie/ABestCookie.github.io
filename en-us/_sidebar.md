@@ -1,7 +1,7 @@
 >**Cookie's dedicated storage**
 
 * [HomePage](/)
-    * [English](en-us//README.md)
+    * [English](/en-us/README.md)
 * [下載中心](/file_download.md)
 * [Project](/project.md)
    * [End-Portal-Finder](/EPF/README.md)
