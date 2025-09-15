@@ -6,7 +6,7 @@
 
 <!-- tabs:start -->
 
-#### scanf資料輸入及運算練習
+#### **scanf資料輸入及運算練習**
 
 ```c
 #include<stdio.h>
@@ -26,7 +26,7 @@ int main()
 }
 ```
 
-#### data type
+#### **data type**
 ```c
 #include<stdio.h>
 #include<string.h>
