@@ -10,6 +10,36 @@
     button { margin: 5px 0; }
     .section { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
     .copy-btn { margin-left: 5px; }
+
+    /* 彈窗進度條 */
+    #progressModal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000;
+    }
+    #progressBox {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      width: 300px;
+    }
+    #progressBar {
+      width: 100%;
+      height: 20px;
+      background: #eee;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    #progressFill {
+      width: 0;
+      height: 100%;
+      background: #4caf50;
+    }
   </style>
 </head>
 <body>
@@ -39,8 +69,17 @@
     <textarea id="localAnswer" placeholder="生成的 Answer，複製給 A"></textarea>
   </div>
 
+  <!-- 彈窗進度條 -->
+  <div id="progressModal">
+    <div id="progressBox">
+      <h3>📥 檔案接收中...</h3>
+      <div id="progressBar"><div id="progressFill"></div></div>
+      <p id="progressText">0%</p>
+    </div>
+  </div>
+
   <script>
-    let pc, channel, fileChunks = [];
+    let pc, channel, fileChunks = [], fileName = "download.bin", fileSize = 0, receivedSize = 0;
 
     function setupConnection() {
       pc = new RTCPeerConnection({
@@ -50,17 +89,37 @@
       channel = pc.createDataChannel("file");
       pc.ondatachannel = e => {
         e.channel.onmessage = ev => {
+          // 嘗試解析檔案資訊
+          try {
+            let info = JSON.parse(ev.data);
+            if (info.name) {
+              fileName = info.name;
+              fileSize = info.size;
+              receivedSize = 0;
+              fileChunks = [];
+              // 顯示進度條
+              showProgress(0);
+              return;
+            }
+          } catch (err) { /* 不是 JSON，忽略 */ }
+
           if (ev.data === "EOF") {
             const blob = new Blob(fileChunks);
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = "download.bin";
+            a.download = fileName;
             a.click();
             fileChunks = [];
-            alert("檔案接收完成！");
+            hideProgress();
+            alert(`📥 已接收檔案：${fileName}`);
           } else {
             fileChunks.push(ev.data);
+            receivedSize += ev.data.byteLength || 0;
+            if (fileSize > 0) {
+              let percent = Math.floor((receivedSize / fileSize) * 100);
+              showProgress(percent);
+            }
           }
         };
       };
@@ -73,6 +132,16 @@
       el.select();
       document.execCommand("copy");
       alert("已複製！");
+    }
+
+    // 顯示進度條
+    function showProgress(percent) {
+      document.getElementById("progressModal").style.display = "flex";
+      document.getElementById("progressFill").style.width = percent + "%";
+      document.getElementById("progressText").innerText = percent + "%";
+    }
+    function hideProgress() {
+      document.getElementById("progressModal").style.display = "none";
     }
 
     // 建立 Offer (A)
@@ -111,6 +180,9 @@
       let file = e.target.files[0];
       let chunkSize = 16 * 1024;
       let offset = 0;
+
+      // 傳送檔案資訊
+      channel.send(JSON.stringify({ name: file.name, size: file.size }));
 
       let reader = new FileReader();
       reader.onload = async function(evt) {
