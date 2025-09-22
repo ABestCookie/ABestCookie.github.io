@@ -1,1 +1,92 @@
 
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>P2P 檔案分享 (WebRTC Demo)</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    textarea { width: 100%; height: 100px; }
+    button { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>🔗 P2P 檔案分享 Demo</h1>
+  
+  <h3>Step 1: A 建立 Offer</h3>
+  <button id="createOffer">建立 Offer</button>
+  <textarea id="offer" placeholder="這裡會生成 Offer，複製給對方"></textarea>
+  
+  <h3>Step 2: B 回覆 Answer</h3>
+  <textarea id="answer" placeholder="把對方的 Answer 貼到這裡"></textarea>
+  <button id="setAnswer">設定 Answer</button>
+
+  <h3>📂 傳送檔案</h3>
+  <input type="file" id="fileInput">
+
+  <script>
+    let pc = new RTCPeerConnection({
+      iceServers: [{ urls: "stun:stun.l.google.com:19302" }] // 公開 STUN server
+    });
+
+    let channel = pc.createDataChannel("file");
+    let fileChunks = [];
+
+    // 接收檔案
+    pc.ondatachannel = e => {
+      e.channel.onmessage = ev => {
+        if (ev.data === "EOF") {
+          const blob = new Blob(fileChunks);
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "download.bin";
+          a.click();
+          fileChunks = [];
+        } else {
+          fileChunks.push(ev.data);
+        }
+      };
+    };
+
+    // 建立 Offer
+    document.getElementById("createOffer").onclick = async () => {
+      let offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      // 等待 ICE 完整收集
+      pc.onicecandidate = e => {
+        if (!e.candidate) {
+          document.getElementById("offer").value = JSON.stringify(pc.localDescription);
+        }
+      };
+    };
+
+    // 設定 Answer
+    document.getElementById("setAnswer").onclick = async () => {
+      let answer = JSON.parse(document.getElementById("answer").value);
+      await pc.setRemoteDescription(answer);
+    };
+
+    // 傳送檔案
+    document.getElementById("fileInput").onchange = async e => {
+      let file = e.target.files[0];
+      let chunkSize = 16 * 1024; // 16KB
+      let offset = 0;
+
+      let reader = new FileReader();
+      reader.onload = async function(evt) {
+        let buffer = evt.target.result;
+        while (offset < buffer.byteLength) {
+          let slice = buffer.slice(offset, offset + chunkSize);
+          channel.send(slice);
+          offset += chunkSize;
+          await new Promise(r => setTimeout(r, 10)); // 避免塞爆
+        }
+        channel.send("EOF");
+        alert("檔案傳送完成！");
+      };
+      reader.readAsArrayBuffer(file);
+    };
+  </script>
+</body>
+</html>
