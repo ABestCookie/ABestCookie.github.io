@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>P2P 檔案分享 (WebRTC Demo)</title>
   <style>
     body { font-family: sans-serif; margin: 20px; }
@@ -11,13 +11,14 @@
     .section { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
     .copy-btn { margin-left: 5px; }
 
-    /* 彈窗進度條 */
+    /* 彈窗進度條：預設隱藏 (不要在同一 selector 再寫 display:flex) */
     #progressModal {
-      display: none;
+      display: none; /* <-- 預設隱藏（修正處） */
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.6);
-      display: flex; align-items: center; justify-content: center;
+      align-items: center;
+      justify-content: center;
       z-index: 1000;
     }
     #progressBox {
@@ -70,7 +71,7 @@
   </div>
 
   <!-- 彈窗進度條 -->
-  <div id="progressModal">
+  <div id="progressModal" aria-hidden="true">
     <div id="progressBox">
       <h3>📥 檔案接收中...</h3>
       <div id="progressBar"><div id="progressFill"></div></div>
@@ -86,67 +87,104 @@
         iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
       });
 
+      // 建立 datachannel（發送端會用到）
       channel = pc.createDataChannel("file");
-      pc.ondatachannel = e => {
-        e.channel.onmessage = ev => {
-          // 嘗試解析檔案資訊
-          try {
-            let info = JSON.parse(ev.data);
-            if (info.name) {
-              fileName = info.name;
-              fileSize = info.size;
-              receivedSize = 0;
-              fileChunks = [];
-              // 顯示進度條
-              showProgress(0);
-              return;
-            }
-          } catch (err) { /* 不是 JSON，忽略 */ }
+      channel.binaryType = "arraybuffer";
 
-          if (ev.data === "EOF") {
-            const blob = new Blob(fileChunks);
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            fileChunks = [];
-            hideProgress();
-            alert(`📥 已接收檔案：${fileName}`);
-          } else {
-            fileChunks.push(ev.data);
-            receivedSize += ev.data.byteLength || 0;
+      // 當遠端也建立 channel 時（接收端會觸發）
+      pc.ondatachannel = e => {
+        const recvChannel = e.channel;
+        // 有些實作需要指定 binaryType
+        try { recvChannel.binaryType = "arraybuffer"; } catch (err) {}
+        recvChannel.onmessage = ev => {
+          // 嘗試解析檔案資訊（JSON）
+          if (typeof ev.data === "string") {
+            try {
+              const info = JSON.parse(ev.data);
+              if (info.name) {
+                fileName = info.name;
+                fileSize = info.size || 0;
+                receivedSize = 0;
+                fileChunks = [];
+                showProgress(0);
+                return;
+              }
+            } catch (_) {
+              // 不是 JSON，就當成字串內容（不處理）
+            }
+            if (ev.data === "EOF") {
+              const blob = new Blob(fileChunks);
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = fileName;
+              a.click();
+              fileChunks = [];
+              hideProgress();
+              alert(`📥 已接收檔案：${fileName}`);
+            }
+            return;
+          }
+
+          // 二進位資料塊（ArrayBuffer / Blob）
+          const chunk = ev.data;
+          // 若是 Blob，轉成 ArrayBuffer 再 push
+          if (chunk instanceof Blob) {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const ab = reader.result;
+              fileChunks.push(new Uint8Array(ab));
+              receivedSize += ab.byteLength;
+              if (fileSize > 0) {
+                const percent = Math.floor((receivedSize / fileSize) * 100);
+                showProgress(percent);
+              }
+            };
+            reader.readAsArrayBuffer(chunk);
+          } else if (chunk instanceof ArrayBuffer) {
+            fileChunks.push(new Uint8Array(chunk));
+            receivedSize += chunk.byteLength;
             if (fileSize > 0) {
-              let percent = Math.floor((receivedSize / fileSize) * 100);
+              const percent = Math.floor((receivedSize / fileSize) * 100);
               showProgress(percent);
             }
+          } else {
+            // 其他情況（字串等）
           }
         };
       };
     }
     setupConnection();
 
-    // 一鍵複製
+    // 一鍵複製（textarea）
     function copyText(id) {
       const el = document.getElementById(id);
       el.select();
       document.execCommand("copy");
+      // 取消選取
+      window.getSelection().removeAllRanges();
       alert("已複製！");
     }
 
-    // 顯示進度條
+    // 顯示進度條（使用 inline style 將 display 改為 flex）
     function showProgress(percent) {
-      document.getElementById("progressModal").style.display = "flex";
+      const modal = document.getElementById("progressModal");
+      modal.style.display = "flex";       // 顯示為 flex 以便置中
+      modal.setAttribute("aria-hidden", "false");
       document.getElementById("progressFill").style.width = percent + "%";
       document.getElementById("progressText").innerText = percent + "%";
     }
     function hideProgress() {
-      document.getElementById("progressModal").style.display = "none";
+      const modal = document.getElementById("progressModal");
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+      document.getElementById("progressFill").style.width = "0%";
+      document.getElementById("progressText").innerText = "0%";
     }
 
     // 建立 Offer (A)
     document.getElementById("createOffer").onclick = async () => {
-      let offer = await pc.createOffer();
+      const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
       pc.onicecandidate = e => {
         if (!e.candidate) {
@@ -157,46 +195,52 @@
 
     // 設定 Answer (A)
     document.getElementById("setAnswer").onclick = async () => {
-      let answer = JSON.parse(document.getElementById("answer").value);
-      await pc.setRemoteDescription(answer);
-      alert("✅ 已連線成功，可以開始傳檔案！");
+      try {
+        const answer = JSON.parse(document.getElementById("answer").value);
+        await pc.setRemoteDescription(answer);
+        alert("✅ 已連線成功，可以開始傳檔案！");
+      } catch (err) {
+        alert("Answer JSON 解析錯誤或無效： " + err.message);
+      }
     };
 
     // 生成 Answer (B)
     document.getElementById("createAnswer").onclick = async () => {
-      let offer = JSON.parse(document.getElementById("remoteOffer").value);
-      await pc.setRemoteDescription(offer);
-      let answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      pc.onicecandidate = e => {
-        if (!e.candidate) {
-          document.getElementById("localAnswer").value = JSON.stringify(pc.localDescription);
-        }
-      };
+      try {
+        const offer = JSON.parse(document.getElementById("remoteOffer").value);
+        await pc.setRemoteDescription(offer);
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        pc.onicecandidate = e => {
+          if (!e.candidate) {
+            document.getElementById("localAnswer").value = JSON.stringify(pc.localDescription);
+          }
+        };
+      } catch (err) {
+        alert("Offer JSON 解析錯誤或無效： " + err.message);
+      }
     };
 
-    // 傳送檔案 (A)
+    // 傳送檔案 (A) — 分塊傳送，先發檔案資訊 (name/size)
     document.getElementById("fileInput").onchange = async e => {
-      let file = e.target.files[0];
-      let chunkSize = 16 * 1024;
+      const file = e.target.files[0];
+      if (!file) return;
+      const chunkSize = 16 * 1024; // 16KB
       let offset = 0;
 
-      // 傳送檔案資訊
+      // 傳送檔案資訊（先發 meta）
       channel.send(JSON.stringify({ name: file.name, size: file.size }));
 
-      let reader = new FileReader();
-      reader.onload = async function(evt) {
-        let buffer = evt.target.result;
-        while (offset < buffer.byteLength) {
-          let slice = buffer.slice(offset, offset + chunkSize);
-          channel.send(slice);
-          offset += chunkSize;
-          await new Promise(r => setTimeout(r, 10));
-        }
-        channel.send("EOF");
-        alert("📤 檔案傳送完成！");
-      };
-      reader.readAsArrayBuffer(file);
+      while (offset < file.size) {
+        const slice = file.slice(offset, offset + chunkSize);
+        // 直接 send Blob（大多數瀏覽器支援）
+        channel.send(slice);
+        offset += chunkSize;
+        // 小延遲避免塞爆 channel
+        await new Promise(r => setTimeout(r, 10));
+      }
+      channel.send("EOF");
+      alert("📤 檔案傳送完成！");
     };
   </script>
 </body>
