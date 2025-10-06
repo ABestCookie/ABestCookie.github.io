@@ -8,6 +8,10 @@
 
 這是一個用來計算minecraft終界祭壇位置的python小程式，旨在讓玩家不用耗費過多的終界之眼即可找到終界祭壇
 
+## 使用幫助
+
+[點我](/help)
+
 ## 把項目拉到本地該做的事(開發者專用)
 >開發者用的，看不懂就建議別動了
 
@@ -118,6 +122,7 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
+
 
 
 
