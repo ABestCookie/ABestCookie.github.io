@@ -2,7 +2,7 @@
 
 > 對沒錯這是我的社課練習
 
-題目 : [B - Inverse Prefix Sum]("https://atcoder.jp/contests/abc280/tasks/abc280_b")
+題目 : ["B - Inverse Prefix Sum"]("https://atcoder.jp/contests/abc280/tasks/abc280_b")
 ```cpp
 #include <bits/stdc++.h>
 using namespace std;
