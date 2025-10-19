@@ -58,3 +58,45 @@ int main() {
     return 0;
 }
 ```
+
+題目: https://atcoder.jp/contests/abc357/tasks/abc357_b
+```cpp
+#include<iostream>
+using namespace std;
+#include<conio.h>
+int main() {
+   string s, result;
+   int counta = 0, countb = 0;
+   cin >> s;
+   for (char c : s) {
+    if ('A' <= c && c <= 'Z') {
+        counta++;
+    } else if ('a' <= c && c <= 'z') {
+        countb++;
+    }
+   }
+   if (counta > countb) { //大寫
+    for (char d : s) { 
+        if ('a' <= d && d <= 'z'){
+            result = d + ('A' - 'a');
+        } else {
+            result = d;
+        }
+        cout << result;
+    }
+   } else {
+    for (char d : s) { //小寫
+        if ('A' <= d && d <= 'Z'){
+            result = d + ('a' - 'A');
+        } else {
+            result = d;
+        }
+        cout << result;
+    }
+   }
+
+
+    _getch();
+    return 0;
+}
+```
