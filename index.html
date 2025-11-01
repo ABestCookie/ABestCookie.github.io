@@ -20,15 +20,34 @@
   <meta name="twitter:image" content="https://abestcookie.github.io/img/IMG_0688.jpeg" />
   
   <link rel="stylesheet" href="docsify/lib/themes/vue.css">
+  <link rel="stylesheet" href="/js_lib/music.css">
   <link rel="stylesheet" href="test/vanilla_ui.css">
 </head>
 
 <body>
   
   <div id="app">loading...<br />need help?</div>
+  <!-- 新增 id="player" 以避免 document.getElementById('player') 回傳 null -->
+  <div class="player" id="player">
+    <!-- 改成相對路徑 (./img/...)，避免以 / 開頭造成跨域或 403 -->
+    <div class="cover" id="cover" style="background-image:url('./img/we_are_japanese_goblin_cover.gif');"></div>
+    <div class="controls">
+      <button class="control-btn play-btn" id="playBtn">▶️</button>
+      <button class="control-btn" id="fbktwo">❎</button>
+    </div>
+
+    <div class="progress-container" id="progressContainer">
+      <span id="currentTime">0:00</span>
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <span id="duration">0:00</span>
+    </div>
+
+    <!-- 改成相對路徑 (./...)，確保檔案放在專案中同一層或指定資料夾 -->
+    <audio id="audio" src="./We_Are_Japanese_Goblin_x_Industry_Baby.m4a"></audio>
+  </div>
   
-  <!-- 打開彈窗的按鈕 -->
-  <button id="open-modal-btn">⚙️</button>
   <!-- 中間彈窗 -->
   <div id="floating-modal">
     <div class="minecraft-container">
@@ -37,11 +56,11 @@
       <div class="minecraft-container-dark">
         <small>當前docsify版本: <span id='tip-version'>loading...</span></small>
         <small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
-        <p></p>目前時間：<div id="time"></div></p>
-        <p><div id="ip-box">取得中...</div></p>
+        <p>目前時間：<span id="time"></span></p>
+        <div id="ip-box">取得中...</div>
         <h5>手動啟用 Debug：</h5>
         <button class="minecraft-button" style="width:200px;" id="enable-debug-btn">啟用 debug</button><br />
-        
+        <button class="minecraft-button" style="width:200px;" id="fbk">音樂</button>
       </div>
     </div>
   </div>
@@ -63,23 +82,6 @@
       width: 1.2em;
       height: 1.2em;
       vertical-align: middle;
-    }
-
-    
-    #open-modal-btn {
-      position: fixed;
-      top: 28px;
-      padding: 10px 16px;
-      background: #3f51b5;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      z-index: 10000;
-    }
-    #open-modal-btn:hover {
-      background: #303f9f;
     }
 
     #floating-modal {
@@ -133,6 +135,9 @@
       cursor: pointer;
       font-size: 16px;
     }
+
+    /* allow toggling visibility for player */
+    .hidden { display: none !important; }
     
     @keyframes fadeIn {
       from { transform: scale(0.9); opacity: 0; }
@@ -154,38 +159,46 @@
     }
     window.onload = () => {
       const modal = document.getElementById('floating-modal');
-      const window = document.getElementById('hash-window');
-      const openBtn = document.getElementById('open-modal-btn');
+      const hashWindow = document.getElementById('hash-window');
       const hashcloseBtn = document.getElementById('hash-window-close-btn');
       const closeBtn = document.getElementById('modal-close-btn');
       const language = navigator.language || navigator.userLanguage;
       const correctHash = "0ea8f6b3e97f3920ebc96cb8c9a0a5a93d65c5cf2938fda3a9a520fdfbff7c4f";
       const enableBtn = document.getElementById('enable-debug-btn');
+      const fbkBtn = document.getElementById('fbk');
+      const fbkTwoBtn = document.getElementById('fbktwo');
 
-      document.getElementById('fileInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (!file) {
-            alert("You didn't choose any file");
-            return;
-        }
-    
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            crypto.subtle.digest('SHA-256', e.target.result)
-                .then(hashBuffer => {
-                    const hashArray = Array.from(new Uint8Array(hashBuffer));
-                    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-                    console.log(hashHex);
-                    document.getElementById('hashOutput').textContent = hashHex;
-                })
-                .catch(err => console.error(err));
-        };
-    
-        reader.readAsArrayBuffer(file);
-      });
+      const fileInputEl = document.getElementById('fileInput');
+      if (fileInputEl) {
+        fileInputEl.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (!file) {
+              alert("You didn't choose any file");
+              return;
+          }
+      
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              crypto.subtle.digest('SHA-256', e.target.result)
+                  .then(hashBuffer => {
+                      const hashArray = Array.from(new Uint8Array(hashBuffer));
+                      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                      console.log(hashHex);
+                      document.getElementById('hashOutput').textContent = hashHex;
+                  })
+                  .catch(err => console.error(err));
+          };
+      
+          reader.readAsArrayBuffer(file);
+        });
+      }
 
       function isMobileDevice() {
-        return navigator.userAgentData && navigator.userAgentData.mobile;
+        // 優先使用 User-Agent Client Hints（若可用），否則退回到 userAgent 的正則檢測
+        if (navigator.userAgentData && typeof navigator.userAgentData.mobile === 'boolean') {
+          return navigator.userAgentData.mobile;
+        }
+        return /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent || '');
       }
 
       if (isMobileDevice()) {
@@ -194,7 +207,21 @@
         console.log("您正在使用桌面设备");
       }
 
-      
+      let expanded = false;
+      fbkBtn.addEventListener('click', () => {
+        modal.classList.remove('show');
+        const player = document.getElementById('player');
+        history.back();
+        expanded = !expanded;
+        player.classList.toggle('show', expanded);
+      });
+
+      fbkTwoBtn.addEventListener('click', () => {
+        const player = document.getElementById('player');
+        expanded = !expanded;
+        player.classList.toggle('show', expanded);
+
+      });
 
       enableBtn.addEventListener('click', () => {
         if (debug === "true") {
@@ -211,41 +238,36 @@
       document.getElementById('tip-language').innerText = language.toLowerCase();
       document.getElementById('tip-version').innerText = window.Docsify && window.Docsify.version ? window.Docsify.version : 'unknown';
 
-      openBtn.addEventListener('click', () => {
-        modal.classList.add('show');
-      });
-
       closeBtn.addEventListener('click', () => {
         modal.classList.remove('show');
+        history.back();
       });
 
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
           modal.classList.remove('show');
-        }
-      });
-      
-      document.addEventListener('keydown', (e) => {
-        if (e.key === "Escape") {
-          modal.classList.remove('show');
-        }
-      });
-
-      hashcloseBtn.addEventListener('click', () => {
-        window.classList.remove('show');
-        history.back();
-      });
-
-      window.addEventListener('click', (e) => {
-        if (e.target === window) {
-          window.classList.remove('show');
           history.back();
         }
       });
-      
+
+      // 關閉 hash window
+      hashcloseBtn.addEventListener('click', () => {
+        hashWindow.classList.remove('show');
+        history.back();
+      });
+
+      hashWindow.addEventListener('click', (e) => {
+        if (e.target === hashWindow) {
+          hashWindow.classList.remove('show');
+          history.back();
+        }
+      });
+
+      // 全域按鍵處理（單一 Esc 處理器）
       document.addEventListener('keydown', (e) => {
         if (e.key === "Escape") {
-          window.classList.remove('show');
+          modal.classList.remove('show');
+          hashWindow.classList.remove('show');
           history.back();
         }
       });
@@ -255,10 +277,12 @@
     fetch('https://api.ipify.org?format=json')
       .then(res => res.json())
       .then(data => {
-        document.getElementById('ip-box').innerText = "你的 IP: " + data.ip;
+        const ipBox = document.getElementById('ip-box');
+        if (ipBox) ipBox.innerText = "你的 IP: " + data.ip;
       })
       .catch(err => {
-        document.getElementById('ip-box').innerText = "無法取得 IP";
+        const ipBox = document.getElementById('ip-box');
+        if (ipBox) ipBox.innerText = "無法取得 IP";
         console.error(err);
       });
 
@@ -271,7 +295,8 @@
       var timeString = hours.toString().padStart(2, '0') + ":" + 
             minutes.toString().padStart(2, '0') + ":" + 
             seconds.toString().padStart(2, '0') + " " + timezone;
-      document.getElementById("time").innerHTML = timeString;
+      var timeEl = document.getElementById("time");
+      if (timeEl) timeEl.innerHTML = timeString;
     }
  
     // 每秒钟更新一次时间（改 1000ms）
@@ -293,7 +318,7 @@
       subMaxLevel: 2,
       relativePath: true,
       coverpage: true,
-      onlyCover: true,
+      onlyCover: false,
       executeScript: true,
       fallbackLanguages: ['en-us'],
       nameLink: {
@@ -324,18 +349,19 @@
     };
   </script>
 
-  <script src="docsify/lib/docsify.min.js"></script>
-  <script src="docsify/lib/plugins/search.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.min.js"></script>
+  
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
-  <script src="docsify/lib/plugins/emoji.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
-  <script src="://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-c.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-c.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/index.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/external-script.min.js"></script>
-  <script src="js_lib/debug.js"></script>
+  <script src="/js_lib/music.js"></script>
   <script>
       const abest = `
       ___           ___           ___           ___           ___

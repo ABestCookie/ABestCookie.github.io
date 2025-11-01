@@ -5,6 +5,6 @@
 [主頁](/README.md)
 [檔案庫](file_download.md)
 
-![](img/IMG_0723.JPG)
+![](/img/IMG_0723.JPG)
 
 ![color](#f0f0f0)

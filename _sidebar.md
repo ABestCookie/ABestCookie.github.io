@@ -12,6 +12,9 @@
        * [儲存庫](https://github.com/ABestCookie/End-Portal-Finder/tree/main) 
 * [blog](https://www.threads.com/@cookie_of_the_5x.month?hl=zh-tw)
    * [threads]
+* [設定](/js_lib/setting.md)
+
+
 
 
 
