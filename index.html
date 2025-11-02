@@ -30,7 +30,7 @@
   <!-- 新增 id="player" 以避免 document.getElementById('player') 回傳 null -->
   <div class="player" id="player">
     <!-- 改成相對路徑 (./img/...)，避免以 / 開頭造成跨域或 403 -->
-    <div class="cover" id="cover" style="background-image:url('./img/we_are_japanese_goblin_cover.gif');"></div>
+    <div class="music-cover" id="music-cover" style="background-image:url('./img/we_are_japanese_goblin_cover.gif');"></div>
     <div class="controls">
       <button class="control-btn play-btn" id="playBtn">▶️</button>
       <button class="control-btn" id="fbktwo">❎</button>
@@ -318,7 +318,7 @@
       subMaxLevel: 2,
       relativePath: true,
       coverpage: true,
-      onlyCover: false,
+      onlyCover: true,
       executeScript: true,
       fallbackLanguages: ['en-us'],
       nameLink: {
