@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>HTML Widget Test for Wallpaper Engine</title>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        /* 隱藏捲軸但保持功能 */
+        ::-webkit-scrollbar { display: none; }
+
+        /* 側邊欄隱藏與顯示的動畫 */
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        .sidebar-hidden {
+            transform: translateX(92%); /* 留一點點邊邊讓使用者知道那裡有東西 */
+        }
+        .sidebar-hidden:hover {
+            transform: translateX(0); /* 滑鼠滑過去自動彈出 */
+        }
+        body {
+            background: url(img/1357949.png);
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden bg-slate-950 flex items-center justify-center">
+
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950 to-black"></div>
+
+    <div id="sidebar" class="fixed right-0 top-0 h-full w-48 z-50 glass border-l border-white/10 flex flex-col p-6 sidebar-hidden">
+        <h2 class="text-white font-bold mb-8 tracking-widest opacity-80 border-b border-white/20 pb-2">DASHBOARD</h2>
+        
+        <button onclick="document.getElementById('widget').style.display='flex'" 
+                class="w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition-all border border-white/10 shadow-lg active:scale-95">
+            顯示時鐘元件
+        </button>
+        
+        <div class="mt-auto text-[10px] text-white/30 text-center">WALLPAPER ENGINE<br>HTML ENGINE v1.0</div>
+    </div>
+
+    <div id="widget" 
+         class="absolute z-10 glass rounded-2xl shadow-2xl flex flex-col min-w-[200px] min-h-[150px]"
+         style="left: 100px; top: 100px; width: 350px; height: 220px;">
+        
+        <div id="drag-handle" class="w-full h-8 flex items-center px-4 cursor-grab active:cursor-grabbing border-b border-white/10">
+            <div class="flex space-x-1.5">
+                <div onclick="document.getElementById('widget').style.display='none'" 
+                     class="w-2.5 h-2.5 rounded-full bg-red-500 hover:bg-red-400 cursor-pointer transition-colors shadow-sm shadow-red-500/50"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
+            </div>
+        </div>
+
+        <div class="flex-grow flex flex-col items-center justify-center p-4 select-none overflow-hidden">
+            <h1 id="time" class="text-5xl font-mono font-bold text-white tracking-widest">00:00:00</h1>
+            <p id="date" class="text-blue-300/60 text-xs mt-2 uppercase tracking-tighter">Initializing...</p>
+        </div>
+
+        <div id="resizer" class="absolute bottom-0 right-0 w-5 h-5 cursor-nwse-resize flex items-end justify-end p-1 group">
+            <div class="w-2 h-2 border-r-2 border-b-2 border-white/30 group-hover:border-white/80 transition-colors"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- 核心 JS 結構完全保留 ---
+        const widget = document.getElementById('widget');
+        const dragHandle = document.getElementById('drag-handle');
+        const resizer = document.getElementById('resizer');
+
+        dragHandle.onmousedown = function(e) {
+            let shiftX = e.clientX - widget.getBoundingClientRect().left;
+            let shiftY = e.clientY - widget.getBoundingClientRect().top;
+
+            function onMouseMove(e) {
+                let x = e.pageX - shiftX;
+                let y = e.pageY - shiftY;
+                if (x < 0) x = 0;
+                if (y < 0) y = 0;
+                let maxX = window.innerWidth - widget.offsetWidth;
+                let maxY = window.innerHeight - widget.offsetHeight;
+                if (x > maxX) x = maxX;
+                if (y > maxY) y = maxY;
+                widget.style.left = x + 'px';
+                widget.style.top = y + 'px';
+            }
+            document.addEventListener('mousemove', onMouseMove);
+            document.onmouseup = function() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.onmouseup = null;
+            };
+        };
+
+        resizer.onmousedown = function(e) {
+            e.preventDefault();
+            const startWidth = widget.offsetWidth;
+            const startHeight = widget.offsetHeight;
+            const startX = e.clientX;
+            const startY = e.clientY;
+
+            function doResize(e) {
+                const newWidth = startWidth + (e.clientX - startX);
+                const newHeight = startHeight + (e.clientY - startY);
+                const maxWidth = window.innerWidth - widget.offsetLeft;
+                const maxHeight = window.innerHeight - widget.offsetTop;
+                if (newWidth > 260 && newWidth < maxWidth) widget.style.width = newWidth + 'px';
+                if (newHeight > 140 && newHeight < maxHeight) widget.style.height = newHeight + 'px';
+            }
+            function stopResize() {
+                document.removeEventListener('mousemove', doResize);
+                document.removeEventListener('mouseup', stopResize);
+            }
+            document.addEventListener('mousemove', doResize);
+            document.addEventListener('mouseup', stopResize);
+        };
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('time').innerText = now.toTimeString().split(' ')[0];
+            document.getElementById('date').innerText = now.toDateString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
