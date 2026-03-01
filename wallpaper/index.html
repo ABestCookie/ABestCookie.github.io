@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -10,19 +11,27 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         /* 隱藏捲軸但保持功能 */
-        ::-webkit-scrollbar { display: none; }
+        ::-webkit-scrollbar {
+            display: none;
+        }
 
         /* 側邊欄隱藏與顯示的動畫 */
         #sidebar {
             transition: transform 0.3s ease-in-out;
         }
+
         .sidebar-hidden {
-            transform: translateX(92%); /* 留一點點邊邊讓使用者知道那裡有東西 */
+            transform: translateX(92%);
+            /* 留一點點邊邊讓使用者知道那裡有東西 */
         }
+
         .sidebar-hidden:hover {
-            transform: translateX(0); /* 滑鼠滑過去自動彈出 */
+            transform: translateX(0);
+            /* 滑鼠滑過去自動彈出 */
         }
+
         body {
             background: url(img/mmk.jpg);
             background-size: cover;
@@ -30,40 +39,50 @@
         }
     </style>
 </head>
+
 <body class="h-screen w-screen overflow-hidden bg-slate-950 flex items-center justify-center">
 
-    <div class="absolute inset-0" style="background: radial-gradient(circle at center, rgba(30, 58, 138, 0.3) 0%, rgba(15, 23, 42, 1) 60%, rgba(0, 0, 0, 1) 100%);"></div>
+    <div class="absolute inset-0"
+        style="background: radial-gradient(circle at center, rgba(30, 58, 138, 0.3) 0%, rgba(15, 23, 42, 1) 60%, rgba(0, 0, 0, 1) 100%);"></div>
 
-    <div id="sidebar" class="fixed right-0 top-0 h-full w-48 z-50 glass border-l border-white/10 flex flex-col p-6 sidebar-hidden">
+    <div id="sidebar"
+        class="fixed right-0 top-0 h-full w-48 z-50 glass border-l border-white/10 flex flex-col p-6 sidebar-hidden">
         <h2 class="text-white font-bold mb-8 tracking-widest opacity-80 border-b border-white/20 pb-2">DASHBOARD</h2>
-        
-        <button onclick="document.getElementById('widget').style.display='flex'" 
-                class="w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition-all border border-white/10 shadow-lg active:scale-95">
+
+        <button onclick="document.getElementById('widget').style.display='flex'"
+            class="w-full py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition-all border border-white/10 shadow-lg active:scale-95">
             顯示時鐘元件
         </button>
+
+        <button onclick="document.getElementById('player-widget').style.display='flex'"
+            class="w-full py-3 mt-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition-all border border-white/10 shadow-lg active:scale-95">
+            顯示音樂播放器
+        </button>
+
         <div class="mt-6">
-            <p class="text-white/50 text-[10px] mb-2 tracking-widest uppercase">Wallpaper Selection</p>
-            <div class="grid grid-cols-1 gap-2">
-                <button onclick="changeBG('img/1357949.png')" class="py-2 rounded bg-white/5 hover:bg-white/20 text-white text-xs transition-all border border-white/5">
-                    awa subaru
-                </button>
-                <button onclick="changeBG('img/mmk.jpg')" class="py-2 rounded bg-white/5 hover:bg-white/20 text-white text-xs transition-all border border-white/5">
-                    momoka
-                </button>
-            </div>
+            <p class="text-white/50 text-[10px] mb-2 tracking-widest uppercase text-center">Wallpaper Select</p>
+            <select onchange="changeBG(this.value)"
+                class="w-full bg-white/10 border border-white/20 text-white text-xs rounded-lg p-2 outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer glass">
+                <option value="img/mmk.jpg" class="bg-slate-900">mmk</option>
+                <option value="img/1357949.png" class="bg-slate-900">SUBARU</option>
+            </select>
         </div>
-        
-        <div class="mt-auto text-[10px] text-white/30 text-center">POWERED BY <a href="https://tailwindcss.com">tailwindcss</a><br>HTML WALLPAPER FOR Wallpaper Engine v1.0</div>
+
+        <div class="mt-auto text-[10px] text-white/30 text-center">
+            POWERED BY <a href="https://tailwindcss.com">tailwindcss</a><br>
+            HTML WALLPAPER FOR Wallpaper Engine v1.0
+        </div>
     </div>
 
-    <div id="widget" 
-         class="absolute z-10 glass rounded-2xl shadow-2xl flex flex-col min-w-[200px] min-h-[150px]"
-         style="left: 100px; top: 100px; width: 350px; height: 220px;">
-        
-        <div id="drag-handle" class="w-full h-8 flex items-center px-4 cursor-grab active:cursor-grabbing border-b border-white/10">
+    <div id="widget"
+        class="absolute z-10 glass rounded-2xl shadow-2xl flex flex-col min-w-[200px] min-h-[150px]"
+        style="left: 100px; top: 100px; width: 350px; height: 220px;">
+
+        <div id="drag-handle"
+            class="w-full h-8 flex items-center px-4 cursor-grab active:cursor-grabbing border-b border-white/10">
             <div class="flex space-x-1.5">
-                <div onclick="document.getElementById('widget').style.display='none'" 
-                     class="w-2.5 h-2.5 rounded-full bg-red-500 hover:bg-red-400 cursor-pointer transition-colors shadow-sm shadow-red-500/50"></div>
+                <div onclick="document.getElementById('widget').style.display='none'"
+                    class="w-2.5 h-2.5 rounded-full bg-red-500 hover:bg-red-400 cursor-pointer transition-colors shadow-sm shadow-red-500/50"></div>
                 <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
                 <div class="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
             </div>
@@ -79,69 +98,49 @@
         </div>
     </div>
 
-    <script>
-        // --- 核心 JS 結構完全保留 ---
-        const widget = document.getElementById('widget');
-        const dragHandle = document.getElementById('drag-handle');
-        const resizer = document.getElementById('resizer');
+    <div id="player-widget"
+        class="absolute z-10 glass rounded-2xl shadow-2xl flex flex-col min-w-[250px] min-h-[180px]"
+        style="left: 500px; top: 100px; width: 300px; height: 200px; display: none;">
 
-        dragHandle.onmousedown = function(e) {
-            let shiftX = e.clientX - widget.getBoundingClientRect().left;
-            let shiftY = e.clientY - widget.getBoundingClientRect().top;
+        <div id="player-drag-handle"
+            class="w-full h-8 flex items-center px-4 cursor-grab active:cursor-grabbing border-b border-white/10">
+            <div class="flex space-x-1.5">
+                <div onclick="document.getElementById('player-widget').style.display='none'"
+                    class="w-2.5 h-2.5 rounded-full bg-red-500 hover:bg-red-400 cursor-pointer"></div>
+                <span class="text-[10px] text-white/30 ml-2 uppercase tracking-widest font-mono">Media Player</span>
+            </div>
+        </div>
 
-            function onMouseMove(e) {
-                let x = e.pageX - shiftX;
-                let y = e.pageY - shiftY;
-                if (x < 0) x = 0;
-                if (y < 0) y = 0;
-                let maxX = window.innerWidth - widget.offsetWidth;
-                let maxY = window.innerHeight - widget.offsetHeight;
-                if (x > maxX) x = maxX;
-                if (y > maxY) y = maxY;
-                widget.style.left = x + 'px';
-                widget.style.top = y + 'px';
-            }
-            document.addEventListener('mousemove', onMouseMove);
-            document.onmouseup = function() {
-                document.removeEventListener('mousemove', onMouseMove);
-                document.onmouseup = null;
-            };
-        };
+        <div class="flex-grow flex flex-col items-center justify-center p-6 select-none overflow-hidden">
+            <audio id="main-audio" src=""></audio>
+            <div id="local-music-title" class="text-white text-sm font-bold truncate w-full text-center mb-4">
+                尚未載入音樂
+            </div>
 
-        resizer.onmousedown = function(e) {
-            e.preventDefault();
-            const startWidth = widget.offsetWidth;
-            const startHeight = widget.offsetHeight;
-            const startX = e.clientX;
-            const startY = e.clientY;
+            <div class="flex items-center space-x-6">
+                <button onclick="toggleLocalPlay()"
+                    class="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white border border-white/20 transition-all active:scale-90">
+                    <span id="local-play-icon" class="text-xl">▶</span>
+                </button>
+            </div>
 
-            function doResize(e) {
-                const newWidth = startWidth + (e.clientX - startX);
-                const newHeight = startHeight + (e.clientY - startY);
-                const maxWidth = window.innerWidth - widget.offsetLeft;
-                const maxHeight = window.innerHeight - widget.offsetTop;
-                if (newWidth > 260 && newWidth < maxWidth) widget.style.width = newWidth + 'px';
-                if (newHeight > 140 && newHeight < maxHeight) widget.style.height = newHeight + 'px';
-            }
-            function stopResize() {
-                document.removeEventListener('mousemove', doResize);
-                document.removeEventListener('mouseup', stopResize);
-            }
-            document.addEventListener('mousemove', doResize);
-            document.addEventListener('mouseup', stopResize);
-        };
+            <div class="w-full h-1.5 bg-white/10 rounded-full mt-6 cursor-pointer relative" onclick="seekAudio(event)">
+                <div id="local-progress"
+                    class="absolute top-0 left-0 h-full bg-blue-500 w-0 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.6)]"></div>
+            </div>
 
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('time').innerText = now.toTimeString().split(' ')[0];
-            document.getElementById('date').innerText = now.toDateString();
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-        // 新增的背景切換函數，不影響原有結構
-        function changeBG(imgPath) {
-            document.body.style.backgroundImage = `url(${imgPath})`;
-        }
-    </script>
+            <label class="mt-4 text-[10px] text-white/40 hover:text-white/80 cursor-pointer transition-colors">
+                [ 載入本地 MP3 ]
+                <input type="file" id="audio-upload" accept="audio/*" class="hidden" onchange="loadLocalAudio(this)">
+            </label>
+        </div>
+
+        <div id="player-resizer" class="absolute bottom-0 right-0 w-5 h-5 cursor-nwse-resize flex items-end justify-end p-1 group">
+            <div class="w-2 h-2 border-r-2 border-b-2 border-white/30 group-hover:border-white/80"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
+
 </html>
