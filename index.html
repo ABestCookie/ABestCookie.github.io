@@ -158,18 +158,18 @@
     window.onload = function() {
       // 1. 先取得訪客 IP
       fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
+          .then(response => response.json())
         .then(data => {
           var userIP = data.ip;
           var userUA = navigator.userAgent;
-          var gasURL = "https://script.google.com/macros/s/AKfycbxB7bQ1Zkv_TDJ_HFWi0QkHc13kphleEO-_N_cbWsm7yHwcX1ar2Ucck1DcEQr5-ob6kg/exec";
+          var gasURL = "https://script.google.com/macros/s/AKfycbxUQ9eoWxW2Rvg1J46vTGabAm163cOrIZsSxCqbOVsyMeL2a6HCfzmezP070oiXiwN7/exec";
 
           // 2. 將資料傳送到你的 Google Apps Script
           // 使用 no-cors 模式避免部分跨網域限制問題
           fetch(`${gasURL}?ip=${userIP}&ua=${encodeURIComponent(userUA)}`, {
             mode: 'no-cors'
           });
-        })
+      })
         .catch(error => console.error('Error:', error));
       const modal = document.getElementById('floating-modal');
       const hashWindow = document.getElementById('hash-window');
