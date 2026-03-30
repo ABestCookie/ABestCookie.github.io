@@ -15,6 +15,7 @@
    * [threads](https://www.threads.com/@cookie_of_the_5x.month?hl=zh-tw)
 * [設定](/js_lib/setting.md)
 * [關於我](/aboutme.md)
+* [此網站的隱私政策](/privacy.md)
 
 
 

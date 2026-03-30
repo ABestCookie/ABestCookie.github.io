@@ -55,9 +55,7 @@
       <span class="emoji">設定及資訊<img src="img/mc/a67qg-4ovq5.svg"></span>
       <div class="minecraft-container-dark">
         <small>當前docsify版本: <span id='tip-version'>loading...</span></small>
-        <small>瀏覽器語系：<span id='tip-language'>loading...</span></small>
-        <p>目前時間：<span id="time"></span></p>
-        <div id="ip-box">取得中...</div>
+      <p>目前時間：<span id="time"></span></p>
         <h5>手動啟用 Debug：</h5>
         <button class="minecraft-button" style="width:200px;" id="enable-debug-btn">啟用 debug</button><br />
         <button class="minecraft-button" style="width:200px;" id="fbk">音樂</button>
@@ -157,7 +155,22 @@
       s.onload = function () { eruda.init(); };
       window.alert("已啟用移動設備debug");
     }
-    window.onload = () => {
+    window.onload = function() {
+      // 1. 先取得訪客 IP
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          var userIP = data.ip;
+          var userUA = navigator.userAgent;
+          var gasURL = "https://script.google.com/macros/s/AKfycbxB7bQ1Zkv_TDJ_HFWi0QkHc13kphleEO-_N_cbWsm7yHwcX1ar2Ucck1DcEQr5-ob6kg/exec";
+
+          // 2. 將資料傳送到你的 Google Apps Script
+          // 使用 no-cors 模式避免部分跨網域限制問題
+          fetch(`${gasURL}?ip=${userIP}&ua=${encodeURIComponent(userUA)}`, {
+            mode: 'no-cors'
+          });
+        })
+        .catch(error => console.error('Error:', error));
       const modal = document.getElementById('floating-modal');
       const hashWindow = document.getElementById('hash-window');
       const hashcloseBtn = document.getElementById('hash-window-close-btn');
@@ -235,7 +248,6 @@
         }
       });
 
-      document.getElementById('tip-language').innerText = language.toLowerCase();
       document.getElementById('tip-version').innerText = window.Docsify && window.Docsify.version ? window.Docsify.version : 'unknown';
 
       closeBtn.addEventListener('click', () => {
@@ -272,21 +284,9 @@
         }
       });
 
-
-
     };
 
-    fetch('https://api.ipify.org?format=json')
-      .then(res => res.json())
-      .then(data => {
-        const ipBox = document.getElementById('ip-box');
-        if (ipBox) ipBox.innerText = "你的 IP: " + data.ip;
-      })
-      .catch(err => {
-        const ipBox = document.getElementById('ip-box');
-        if (ipBox) ipBox.innerText = "無法取得 IP";
-        console.error(err);
-      });
+
 
     function updateTime() {
       var now = new Date();
