@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph 基本資訊 -->
+    <meta property="og:title" content="IG 3:4 一鍵切圖工具" />
+    <meta property="og:description" content="再也不怕放主頁的自推臉被裁掉嘻嘻" />
+    <meta property="og:image" content="https://drive.miyago9267.com/d/file/img/searcher/mygo/4/%E6%B2%92%E5%9C%A8%E9%96%8B%E7%8E%A9%E7%AC%91%E6%88%91%E6%98%AF%E8%AA%8D%E7%9C%9F%E7%9A%84.jpg" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IG 3:4 一鍵切圖工具" />
+    <meta name="twitter:description" content="再也不怕放主頁的自推臉被裁掉嘻嘻" />
+    <meta name="twitter:image" content="https://drive.miyago9267.com/d/file/img/searcher/mygo/4/%E6%B2%92%E5%9C%A8%E9%96%8B%E7%8E%A9%E7%AC%91%E6%88%91%E6%98%AF%E8%AA%8D%E7%9C%9F%E7%9A%84.jpg" />
+
+    <title>IG 3:4 一鍵切圖工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        :root { --primary: #0095f6; --bg: #fafafa; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; padding: 20px; color: #262626; }
+        .card { background: white; border: 1px solid #dbdbdb; border-radius: 12px; padding: 24px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .img-box { width: 100%; aspect-ratio: 3/4; background: #eee; margin: 20px 0; overflow: hidden; border-radius: 8px; border: 1px dashed #ccc; }
+        img { max-width: 100%; display: block; }
+        .btn { background: var(--primary); color: white; border: none; padding: 14px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; font-size: 16px; margin-bottom: 12px; transition: 0.2s; }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { background: #b2dffc; cursor: not-allowed; }
+        .btn-black { background: #262626; margin-top: 10px; }
+        .result-container { margin-top: 30px; display: none; border-top: 1px solid #eee; padding-top: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: #fff; padding: 10px; }
+        .grid img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border: 1px solid #efefef; border-radius: 4px; }
+        .hint { font-size: 13px; color: #8e8e8e; margin-top: 10px; line-height: 1.5; }
+        #status-msg { margin: 10px 0; font-size: 14px; color: var(--primary); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 style="margin-top:0">IG 九宮格產生器</h2>
+    <p class="hint"> 3:4 比例<br>再也不怕放主頁的自推臉被裁掉嘻嘻</p>
+    
+    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+    <button class="btn" onclick="document.getElementById('fileInput').click()">1. 選取照片</button>
+
+    <div class="img-box">
+        <img id="image" src="">
+    </div>
+
+    <button id="cropBtn" class="btn" disabled>2. 產生九宮格</button>
+    <div id="status-msg"></div>
+    
+    <div class="result-container" id="resultArea">
+        <p style="font-weight:bold">預覽結果</p>
+        <div class="grid" id="gridDisplay"></div>
+        <button id="downloadZipBtn" class="btn btn-black">3. 一鍵下載全部 (.zip)</button>
+        <p class="hint">💡 <b>上傳教學：</b><br>解壓縮後，請按照檔名編號 9 → 1 的順序上傳。<br>或著是從你手機相簿最下面一張開始傳<br>(最後一張圖要最先傳，才會在右下角)</p>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script>
+
+    window.onload = function() {
+      // 1. 先取得訪客 IP
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+        .then(data => {
+            var userIP = data.ip;
+            var userUA = navigator.userAgent;
+            var gasURL = "https://script.google.com/macros/s/AKfycbxUQ9eoWxW2Rvg1J46vTGabAm163cOrIZsSxCqbOVsyMeL2a6HCfzmezP070oiXiwN7/exec";
+
+          // 2. 將資料傳送到你的 Google Apps Script
+          // 使用 no-cors 模式避免部分跨網域限制問題
+            fetch(`${gasURL}?ip=${userIP}&ua=${encodeURIComponent(userUA)}+from gridapp`, {
+                mode: 'no-cors'
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    };
+    const fileInput = document.getElementById('fileInput');
+    const image = document.getElementById('image');
+    const cropBtn = document.getElementById('cropBtn');
+    const resultArea = document.getElementById('resultArea');
+    const gridDisplay = document.getElementById('gridDisplay');
+    const downloadZipBtn = document.getElementById('downloadZipBtn');
+    const statusMsg = document.getElementById('status-msg');
+    
+    let cropper;
+    let croppedImages = []; // 用來存儲切好的 base64 資料
+
+    fileInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            image.src = event.target.result;
+            if (cropper) cropper.destroy();
+            
+            cropper = new Cropper(image, {
+                aspectRatio: 3 / 4, // 總比例鎖定 3:4
+                viewMode: 1,
+                autoCropArea: 1,
+                guides: true, // 顯示 3x3 輔助線
+            });
+            cropBtn.disabled = false;
+            resultArea.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    };
+
+    cropBtn.onclick = () => {
+        statusMsg.innerText = "正在切圖中...";
+        // 為了高品質輸出的解析度
+        const canvas = cropper.getCroppedCanvas({ width: 3240, height: 4320 });
+        gridDisplay.innerHTML = '';
+        croppedImages = []; 
+
+        const w = canvas.width / 3;
+        const h = canvas.height / 3;
+
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = w;
+                tempCanvas.height = h;
+                const ctx = tempCanvas.getContext('2d');
+
+                ctx.drawImage(canvas, col * w, row * h, w, h, 0, 0, w, h);
+
+                const dataUrl = tempCanvas.toDataURL('image/jpeg', 0.9);
+                croppedImages.push(dataUrl);
+
+                const img = document.createElement('img');
+                img.src = dataUrl;
+                gridDisplay.appendChild(img);
+            }
+        }
+        
+        statusMsg.innerText = "切圖完成！";
+        resultArea.style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    };
+
+    // 一鍵打包下載功能
+    downloadZipBtn.onclick = async () => {
+        const zip = new JSZip();
+        const folder = zip.folder("ig_grid_photos");
+
+        croppedImages.forEach((dataUrl, index) => {
+            // 去掉 base64 的標頭，只取資料部分
+            const imageData = dataUrl.split(',')[1];
+            folder.file(`grid_part_${index + 1}.jpg`, imageData, {base64: true});
+        });
+
+        const content = await zip.generateAsync({type: "blob"});
+        saveAs(content, "ig_grid_pack.zip");
+    };
+</script>
+
+</body>
+</html>
