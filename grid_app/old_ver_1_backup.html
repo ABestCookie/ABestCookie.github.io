@@ -9,6 +9,12 @@
     <meta property="og:image" content="https://drive.miyago9267.com/d/file/img/searcher/mygo/4/%E6%B2%92%E5%9C%A8%E9%96%8B%E7%8E%A9%E7%AC%91%E6%88%91%E6%98%AF%E8%AA%8D%E7%9C%9F%E7%9A%84.jpg" />
     <meta property="og:type" content="website" />
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IG 3:4 一鍵切圖工具" />
+    <meta name="twitter:description" content="再也不怕放主頁的自推臉被裁掉嘻嘻" />
+    <meta name="twitter:image" content="https://drive.miyago9267.com/d/file/img/searcher/mygo/4/%E6%B2%92%E5%9C%A8%E9%96%8B%E7%8E%A9%E7%AC%91%E6%88%91%E6%98%AF%E8%AA%8D%E7%9C%9F%E7%9A%84.jpg" />
+
     <title>IG 3:4 一鍵切圖工具</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -24,17 +30,10 @@
         .btn:disabled { background: #b2dffc; cursor: not-allowed; }
         .btn-black { background: #262626; margin-top: 10px; }
         .result-container { margin-top: 30px; display: none; border-top: 1px solid #eee; padding-top: 20px; }
-        
-        /* 讓網格數量動態改變 */
-        .grid { display: grid; gap: 6px; background: #fff; padding: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: #fff; padding: 10px; }
         .grid img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border: 1px solid #efefef; border-radius: 4px; }
-        
         .hint { font-size: 13px; color: #8e8e8e; margin-top: 10px; line-height: 1.5; }
         #status-msg { margin: 10px 0; font-size: 14px; color: var(--primary); font-weight: bold; }
-        
-        /* 新增輸入框樣式 */
-        .input-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; align-items: center; }
-        .input-group input { width: 50px; padding: 8px; border: 1px solid #dbdbdb; border-radius: 4px; text-align: center; }
     </style>
 </head>
 <body>
@@ -43,13 +42,6 @@
     <h2 style="margin-top:0">IG 九宮格產生器</h2>
     <p class="hint"> 3:4 比例<br>再也不怕放主頁的自推臉被裁掉嘻嘻</p>
     
-    <div class="input-group">
-        <label>寬：</label>
-        <input type="number" id="gridCols" value="3" min="1" max="10">
-        <label>高：</label>
-        <input type="number" id="gridRows" value="3" min="1" max="10">
-    </div>
-
     <input type="file" id="fileInput" accept="image/*" style="display: none;">
     <button class="btn" onclick="document.getElementById('fileInput').click()">1. 選取照片</button>
 
@@ -57,31 +49,37 @@
         <img id="image" src="">
     </div>
 
-    <button id="cropBtn" class="btn" disabled>2. 產生切圖</button>
+    <button id="cropBtn" class="btn" disabled>2. 產生九宮格</button>
     <div id="status-msg"></div>
     
     <div class="result-container" id="resultArea">
         <p style="font-weight:bold">預覽結果</p>
         <div class="grid" id="gridDisplay"></div>
         <button id="downloadZipBtn" class="btn btn-black">3. 一鍵下載全部 (.zip)</button>
-        <p class="hint">💡 <b>上傳教學：</b><br>從你手機相簿最後一張開始傳（由右至左、由下至上）</p>
+        <p class="hint">💡 <b>上傳教學：</b><br>解壓縮後，請按照檔名編號 9 → 1 的順序上傳。<br>或著是從你手機相簿最下面一張開始傳<br>(最後一張圖要最先傳，才會在右下角)</p>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script>
-    // 原有的記錄訪客腳本保留
+
     window.onload = function() {
+      // 1. 先取得訪客 IP
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
         .then(data => {
             var userIP = data.ip;
             var userUA = navigator.userAgent;
             var gasURL = "https://script.google.com/macros/s/AKfycbxUQ9eoWxW2Rvg1J46vTGabAm163cOrIZsSxCqbOVsyMeL2a6HCfzmezP070oiXiwN7/exec";
-            fetch(`${gasURL}?ip=${userIP}&ua=${encodeURIComponent(userUA)}+from gridapp`, { mode: 'no-cors' });
-        }).catch(error => console.error('Error:', error));
-    };
 
+          // 2. 將資料傳送到你的 Google Apps Script
+          // 使用 no-cors 模式避免部分跨網域限制問題
+            fetch(`${gasURL}?ip=${userIP}&ua=${encodeURIComponent(userUA)}+from gridapp`, {
+                mode: 'no-cors'
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    };
     const fileInput = document.getElementById('fileInput');
     const image = document.getElementById('image');
     const cropBtn = document.getElementById('cropBtn');
@@ -89,23 +87,9 @@
     const gridDisplay = document.getElementById('gridDisplay');
     const downloadZipBtn = document.getElementById('downloadZipBtn');
     const statusMsg = document.getElementById('status-msg');
-    const gridColsInput = document.getElementById('gridCols');
-    const gridRowsInput = document.getElementById('gridRows');
     
     let cropper;
-    let croppedImages = [];
-
-    // 當寬高數值改變時，重新初始化裁切框比例
-    function updateCropperRatio() {
-        if (!cropper) return;
-        const cols = parseInt(gridColsInput.value) || 3;
-        const rows = parseInt(gridRowsInput.value) || 3;
-        // 每一格是 3:4，所以總寬高比是 (cols * 3) / (rows * 4)
-        cropper.setAspectRatio((cols * 3) / (rows * 4));
-    }
-
-    gridColsInput.onchange = updateCropperRatio;
-    gridRowsInput.onchange = updateCropperRatio;
+    let croppedImages = []; // 用來存儲切好的 base64 資料
 
     fileInput.onchange = (e) => {
         const file = e.target.files[0];
@@ -116,14 +100,11 @@
             image.src = event.target.result;
             if (cropper) cropper.destroy();
             
-            const cols = parseInt(gridColsInput.value) || 3;
-            const rows = parseInt(gridRowsInput.value) || 3;
-
             cropper = new Cropper(image, {
-                aspectRatio: (cols * 3) / (rows * 4), 
+                aspectRatio: 3 / 4, // 總比例鎖定 3:4
                 viewMode: 1,
                 autoCropArea: 1,
-                guides: true,
+                guides: true, // 顯示 3x3 輔助線
             });
             cropBtn.disabled = false;
             resultArea.style.display = 'none';
@@ -133,26 +114,16 @@
 
     cropBtn.onclick = () => {
         statusMsg.innerText = "正在切圖中...";
-        const cols = parseInt(gridColsInput.value) || 3;
-        const rows = parseInt(gridRowsInput.value) || 3;
-
-        // 1. 這裡最重要：動態設定 CSS 網格欄數，解決拉伸問題
-        gridDisplay.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-
-        // 計算總寬高，單格設為 1080x1440
-        const totalW = cols * 1080;
-        const totalH = rows * 1440;
-
-        const canvas = cropper.getCroppedCanvas({ width: totalW, height: totalH });
+        // 為了高品質輸出的解析度
+        const canvas = cropper.getCroppedCanvas({ width: 3240, height: 4320 });
         gridDisplay.innerHTML = '';
-        gridDisplay.style.gridTemplateColumns = `repeat(${cols}, 1fr)`; // 動態調整預覽網格欄數[cite: 1]
         croppedImages = []; 
 
-        const w = 1080;
-        const h = 1440;
+        const w = canvas.width / 3;
+        const h = canvas.height / 3;
 
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
                 const tempCanvas = document.createElement('canvas');
                 tempCanvas.width = w;
                 tempCanvas.height = h;
@@ -165,8 +136,6 @@
 
                 const img = document.createElement('img');
                 img.src = dataUrl;
-                // 這裡設定寬度 100% 讓它自動適應新的網格欄位[cite: 1]
-                img.style.width = "100%";
                 gridDisplay.appendChild(img);
             }
         }
@@ -176,16 +145,21 @@
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     };
 
+    // 一鍵打包下載功能
     downloadZipBtn.onclick = async () => {
         const zip = new JSZip();
         const folder = zip.folder("ig_grid_photos");
+
         croppedImages.forEach((dataUrl, index) => {
+            // 去掉 base64 的標頭，只取資料部分
             const imageData = dataUrl.split(',')[1];
             folder.file(`grid_part_${index + 1}.jpg`, imageData, {base64: true});
         });
+
         const content = await zip.generateAsync({type: "blob"});
         saveAs(content, "ig_grid_pack.zip");
     };
 </script>
+
 </body>
 </html>
