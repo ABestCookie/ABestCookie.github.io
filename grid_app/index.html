@@ -35,6 +35,19 @@
         /* 新增輸入框樣式 */
         .input-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; align-items: center; }
         .input-group input { width: 50px; padding: 8px; border: 1px solid #dbdbdb; border-radius: 4px; text-align: center; }
+        @font-face {
+            font-family: 'MyHandwriting';
+            src: url('./font/AaManYuShouXieTi.ttf') format('truetype');
+            font-display: swap; /* 確保字體載入前先顯示系統字體 */
+        }
+
+        body {
+            font-family: 'MyHandwriting', -apple-system, "Microsoft JhengHei", sans-serif;
+        }
+        .btn {
+            font-family: 'MyHandwriting', -apple-system, "Microsoft JhengHei", sans-serif;
+        }
+        
     </style>
 </head>
 <body>

@@ -22,6 +22,33 @@
   <link rel="stylesheet" href="docsify/lib/themes/vue.css">
   <link rel="stylesheet" href="/js_lib/music.css">
   <link rel="stylesheet" href="test/vanilla_ui.css">
+  <style>
+        @font-face {
+      font-family: 'MyHandwriting';
+      src: url('/font/AaManYuShouXieTi.ttf') format('ttf');
+      font-display: swap; /* 確保字體載入前先顯示系統字體 */
+    }
+
+    /* 針對標題 */
+    #main .markdown-section h1, 
+    #main .markdown-section h2, 
+    #main .markdown-section h3 {
+      font-family: 'MyHandwriting', cursive !important;
+      color: var(--theme-color);
+    }
+
+    /* 針對內文段落 */
+    section.content .markdown-section p,
+    section.content .markdown-section li {
+      font-family: 'MyHandwriting', serif !important;
+      line-height: 1.8; /* 手寫字通常需要大一點的行高才好看 */
+    }
+
+    /* 針對側邊欄選單 */
+    .sidebar ul li a {
+      font-family: 'MyHandwriting', sans-serif !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -141,6 +168,8 @@
       from { transform: scale(0.9); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
+
+
   </style>
 
   <script>
