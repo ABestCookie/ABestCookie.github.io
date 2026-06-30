@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於 餅乾</title>
+    <meta name="description" content="我不知道要寫啥反正這是電子名片">
+    <meta property="og:title" content="關於 餅乾">
+    <meta property="og:description" content="又名WafflyBat。是位不忠實的蘇制軍迷，同時也是A大見usp就倒的蒼蠅頭。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://abestcookie.github.io/business_card/">
+    <meta property="og:image" content="https://abestcookie.github.io/business_card/resources/67.jpg">
+    <meta property="og:site_name" content="Cookie 餅乾">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="關於 餅乾">
+    <meta name="twitter:description" content="Cookie 餅乾的個人名片頁面。">
+    <meta name="twitter:image" content="https://abestcookie.github.io/business_card/resources/67.jpg">
+    <style>
+        /* --- 全域重設 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            min-height: 100vh; 
+            padding: 40px 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url("resources/mzk.jpg") center center / cover no-repeat fixed;
+            overflow-x: hidden;
+        }
+
+        /* --- 裝飾用背景微光 --- */
+        .bg-glow {
+            position: fixed; 
+            width: 300px;
+            height: 300px;
+            background: rgba(139, 92, 246, 0.15);
+            filter: blur(100px);
+            border-radius: 50%;
+            z-index: 1;
+            top: 20%;
+            left: 25%;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 20;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .profile-card.hidden {
+            display: none;
+        }
+
+        /* ========================================= */
+        /* --- 毛玻璃主卡片 (預設為手機版：窄框、直排) --- */
+        /* ========================================= */
+        .profile-card {
+            position: relative;
+            z-index: 10;
+            width: 92%;
+            max-width: 480px; /* 預設窄框 */
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%); 
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            color: #ffffff;
+            
+            /* 使用 Flexbox 進行排版 */
+            display: flex;
+            flex-direction: column; /* 直式上下排列 */
+            gap: 30px; /* 資訊區與按鈕區的間距 */
+            transition: all 0.4s ease; 
+        }
+
+        /* --- 資訊區 (左側/上方) --- */
+        .profile-info {
+            text-align: center; /* 手機版置中 */
+        }
+
+        .avatar-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px auto; /* 手機版頭像置中 */
+            position: relative;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .bio {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+        }
+
+        /* --- 連結區 (右側/下方) --- */
+        .links-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        /* --- 每個連結方塊 --- */
+        .link-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none; 
+            -webkit-user-select: none;
+        }
+
+        .meme-gif {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            margin-right: 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05); 
+            padding: 2px;
+        }
+
+        .link-text {
+            font-size: 1.05rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+
+        .link-arrow {
+            margin-left: auto;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.9rem;
+            transition: transform 0.25s ease;
+        }
+
+        /* --- 電腦版滑鼠互動 --- */
+        @media (hover: hover) {
+            .link-item:hover {
+                background: rgba(255, 255, 255, 0.08);
+                border-color: rgba(255, 255, 255, 0.25);
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+            .link-item:hover .link-arrow {
+                transform: translateX(4px);
+                color: rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        .link-item:active {
+            transform: scale(0.97);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ========================================= */
+        /* --- 平板/電腦版 RWD (大於 768px 時觸發橫向寬卡片) --- */
+        /* ========================================= */
+        @media (min-width: 768px) {
+            .profile-card {
+                flex-direction: row; /* ★ 魔法在這裡：從直排變成橫排 ★ */
+                align-items: center; /* 左右兩個區塊垂直置中對齊 */
+                max-width: 850px;    /* 展開成寬框框 */
+                padding: 50px;
+                gap: 50px;           /* 左右區塊的間隔 */
+            }
+
+            .profile-info {
+                flex: 1; /* 左側佔用比例 1 */
+                text-align: left; /* 大螢幕時，文字靠左看起更高級、更有 dashboard 的感覺 */
+            }
+
+            .avatar-wrapper {
+                margin: 0 0 20px 0; /* 頭像也跟著靠左 */
+                width: 120px; /* 大螢幕頭像稍微放大 */
+                height: 120px;
+            }
+
+            .links-grid {
+                flex: 1.2; /* 右側佔用比例 1.2 (讓按鈕區稍微寬一點) */
+            }
+        }
+
+        /* ========================================= */
+        /* --- 極小手機螢幕微調 (小於 480px) --- */
+        /* ========================================= */
+        @media (max-width: 480px) {
+            body, html { padding: 20px 0; }
+            .profile-card {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+            .avatar-wrapper { width: 85px; height: 85px; }
+            .name { font-size: 1.4rem; }
+            .bio { font-size: 0.85rem; }
+            .link-item { padding: 10px 15px; border-radius: 14px; }
+            .meme-gif { width: 40px; height: 40px; margin-right: 12px; }
+            .link-text { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="toggle-btn" id="toggleProfileBtn" type="button">-</button>
+    <div class="bg-glow"></div>
+
+    <div class="profile-card">
+        
+        <div class="profile-info">
+            <div class="avatar-wrapper">
+                <img src="./resources/avatar.jpg" alt="Avatar" class="avatar">
+            </div>
+            <h1 class="name">Cookie 餅乾</h1>
+            <p class="bio">又名WafflyBat。是位不忠實的蘇制軍迷，同時也是A大見usp就倒的蒼蠅頭。<br><h4>對了我說我說純愛萬歲尼爾多隆瑪?</h4>
+            </p>
+        </div>
+
+        <div class="links-grid">
+            <a href="https://www.instagram.com/cookie_of_the_5x.month/" class="link-item" target="_blank">
+                <img src="./resources/ig.svg" alt="湊企鵝" class="meme-gif">
+                <span class="link-text">Instagram <br>(但是我開私帳了🙃)</span>
+                <span class="link-arrow">➔</span>
+            </a>
+
+            <a href="https://github.com/ABestCookie" class="link-item" target="_blank">
+                <img alt="Meme 2" class="meme-gif" src="./resources/GitHub_Invertocat_Black.svg">
+                <span class="link-text">GitHub</span>
+                <span class="link-arrow">➔</span>
+            </a>
+
+            <a href="https://zh.moegirl.org.cn/zh-tw/%E6%99%93%E5%B1%B1%E7%91%9E%E5%B8%8C" class="link-item" target="_blank">
+                <img src="./resources/bochi.jpg" alt="Nyan Cat" class="meme-gif">
+                <span class="link-text">然後我不知道要放什麼了</span>
+                <span class="link-arrow">➔</span>
+            </a>
+
+            <a href="https://www.bilibili.com/video/BV1sV3xzfEXP/?share_source=copy_web&vd_source=e4ec5a59cf514a3c9b451831c2943930&t=58" class="link-item" target="_blank">
+                <img src="./resources/gugugaga.jpg" alt="Cat" class="meme-gif">
+                <span class="link-text">迷因聖地 Meme Vault</span>
+                <span class="link-arrow">➔</span>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('toggleProfileBtn');
+        const profileCard = document.querySelector('.profile-card');
+
+        toggleBtn.addEventListener('click', () => {
+            const hidden = profileCard.classList.toggle('hidden');
+            toggleBtn.textContent = hidden ? '+' : '-';
+        });
+    </script>
+
+</body>
+</html>
