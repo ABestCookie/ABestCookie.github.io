@@ -1,0 +1,71 @@
+<body style="margin:0; overflow:hidden; background:#000;">
+<canvas id="c" style="width:100vw; height:100vh; display:block; cursor:pointer;"></canvas>
+<script>
+M=Math,S=M.sin,C=M.cos,A=M.abs,mn=M.min,mx=M.max,W=400,H=240,Z=32,D=new Uint32Array(96e3),N=new ImageData(new Uint8ClampedArray(D.buffer),W,H),w=new Uint8Array(32768),P={x:16,y:20,z:16,a:0,b:0,g:0},J=0,T=c.getContext`2d`,I=(x,y,z)=>(y*32+z)*32+x,B=(x,y,z)=>(x|y|z)&~31?0:w[I(x,y,z)];c.width=W;c.height=H;
+
+// 地形生成
+for(i=1024;i--;){X=i%Z;Y=i>>5;h=12+4*S(X/4)*C(Y/4)|0;for(y=Z;y--;)w[I(X,y,Y)]=y<h-3?2:y<h?1:0;if(h<15&M.random()<0.05){Th=4+(M.random()*2|0);for(k=Th;k--;)w[I(X,h+k,Y)]=3;for(k=27;k--;)if(M.random()<0.85)w[I(k%3-1+X,h+Th-2+(k/9|0),Y+(k/3|0)%3-1)]=4}}
+
+// 射線穿透檢測
+R=(p,d)=>{X=p.x|0;Y=p.y|0;Z=p.z|0;l=d.x;n=d.y;o=d.z;a=A(1/l);b=A(1/n);e=A(1/o);q=l>0?1:-1;r=n>0?1:-1;s=o>0?1:-1;u=(X+(l>0)-p.x)/l;v=(Y+(n>0)-p.y)/n;t=(Z+(o>0)-p.z)/o;for(i=24;i--;){if(g=B(X,Y,Z))return{h:1,n:f,b:g};u<v?u<t?(u+=a,X+=q,f=0):(t+=e,Z+=s,f=2):v<t?(v+=b,Y+=r,f=1):(t+=e,Z+=s,f=2)}return{h:0}};
+
+// 玩家碰撞體更新
+U=(a,v)=>{r=.3;X=P.x;Y=P.y;Z=P.z;for(i=Y|0;i<=Y+1.6;i++)for(j=Z-r|0;j<=Z+r;j++)for(k=X-r|0;k<=X+r;k++)B(k,i,j)&&X+r>k&X-r<k+1&Y+1.6>i&Y<i+1&Z+r>j&Z-r<j+1&&(a?a-1?P.z=(v>0?j-r:j+1+r):(P.y=(v>0?i-1.6:i+1),P.g=0):(P.x=(v>0?k-r:k+1+r)))};
+
+// --- PC 按鍵與滑鼠控制邏輯 ---
+K = {};
+window.onkeydown = e => K[e.code] = 1;
+window.onkeyup   = e => K[e.code] = 0;
+
+// 點擊 Canvas 鎖定滑鼠指標
+c.onclick = () => c.requestPointerLock();
+
+// 滑鼠移動旋轉視角
+window.onmousemove = e => {
+  if (document.pointerLockElement === c) {
+    P.a -= e.movementX * 0.003; // 左右轉頭 (Yaw)
+    P.b = mx(-1.5, mn(1.5, P.b - e.movementY * 0.003)); // 上下抬頭 (Pitch)
+  }
+};
+
+// 遊戲主迴圈
+(L=t=>{
+  dt=mn((t-P.t||0)/1e3,.1);P.t=t;
+  
+  // WASD 移動計算
+  mu = (K['KeyD']||K['ArrowRight']||0) - (K['KeyA']||K['ArrowLeft']||0);
+  mv = (K['KeyS']||K['ArrowDown']||0) - (K['KeyW']||K['ArrowUp']||0);
+  
+  // 空白鍵跳躍
+  J=mx(0,J-dt);
+  if((K['Space']) && P.g==0 && J==0){ P.g=8; J=.35; }
+
+  sp=5*dt;P.g-=18*dt;
+  cx=C(P.a);sx=S(P.a);
+  vx=(mu*cx-mv*sx)*sp;
+  vz=(-mu*sx-mv*cx)*sp;
+  
+  P.x+=vx;U(0,vx);
+  P.z+=vz;U(2,vz);
+  P.y+=P.g*dt;U(1,P.g);
+  
+  // 掉落虛空重置
+  if(P.y<-10)P.x=16,P.y=30,P.z=16,P.g=0;
+
+  // 畫面渲染
+  cp=C(P.b);sp=S(P.b);
+  for(k=96e3;k--;){
+    x=k%W;y=k/W|0;dx=x/200-1;dy=.6-y/200;
+    d={x:sx*cp+cx*dx+sx*sp*dy,y:-sp+cp*dy,z:cx*cp-sx*dx+cx*sp*dy};
+    h=R({x:P.x,y:P.y+1.5,z:P.z},d);
+    // 修正：此處應使用射線方向 d.y 判斷，而非 h.y（h 沒有 y 屬性）
+    l=h.n==1?(d.y>0?.6:1):(h.n?.8:.7);
+    Q=[0,16046206,7360560,4206624,2121760][h.b];
+    D[k]=h.h?0xFF000000|((Q&255)*l)<<16|(((Q>>8)&255)*l)<<8|(((Q>>16)&255)*l):0xFFFFEC88
+  }
+  T.putImageData(N,0,0);
+  requestAnimationFrame(L)
+})(0)
+
+</script>
+</body>
